@@ -1,0 +1,40 @@
+.bar {
+  height: var(--phone-status-bar-height);
+  padding: 18px 24px 14px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  background: var(--color-surface);
+  position: relative;
+  z-index: 2;
+}
+
+.time {
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.icons {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-top: 3px;
+}
+
+.icon {
+  display: block;
+  flex: 0 0 auto;
+}
+
+.signal {
+  width: 17px;
+}
+
+.wifi {
+  width: 17px;
+}
+
+.battery {
+  width: 28px;
+}

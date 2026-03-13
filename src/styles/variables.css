@@ -1,0 +1,40 @@
+:root {
+  --color-bg: #f3f4fb;
+  --color-surface: #ffffff;
+  --color-surface-soft: #f7f3ff;
+  --color-surface-muted: #f6f7fb;
+  --color-text: #191b2a;
+  --color-text-secondary: #6f7489;
+  --color-text-tertiary: #9ba1b4;
+  --color-border: #e8eaf5;
+  --color-primary: #9279e8;
+  --color-primary-strong: #9279e8;
+  --color-primary-soft: #ece6ff;
+  --color-danger: #db5c76;
+  --color-success: #25b36a;
+  --color-warning: #f59e0b;
+  --shadow-panel: 0 24px 60px rgba(29, 36, 83, 0.12);
+  --shadow-card: 0 16px 32px rgba(88, 94, 122, 0.12);
+  --radius-sm: 12px;
+  --radius-md: 18px;
+  --radius-lg: 24px;
+  --radius-xl: 32px;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-7: 32px;
+  --space-8: 40px;
+  --phone-width: 375px;
+  --phone-height: 844px;
+  --phone-status-bar-height: 66px;
+  --phone-home-indicator-height: 34px;
+  --phone-content-height: calc(
+    var(--phone-height) - var(--phone-status-bar-height) - var(--phone-home-indicator-height)
+  );
+  --transition-base: 160ms ease;
+  --font-family-base: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", sans-serif;
+}

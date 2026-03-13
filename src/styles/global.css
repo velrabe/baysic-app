@@ -1,0 +1,18 @@
+@import './variables.css';
+@import './reset.css';
+
+body {
+  font-family: var(--font-family-base);
+  background:
+    radial-gradient(circle at top left, rgba(111, 99, 255, 0.16), transparent 28%),
+    linear-gradient(180deg, #f9f9ff 0%, #eef1f8 100%);
+  color: var(--color-text);
+}
+
+body::selection {
+  background: rgba(111, 99, 255, 0.18);
+}
+
+#root {
+  min-height: 100vh;
+}

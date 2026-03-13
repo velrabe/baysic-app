@@ -1,0 +1,526 @@
+.screen {
+  min-height: 100%;
+  padding: 0 20px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.flexGrow {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 16px;
+}
+
+.centeredScreen {
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.splashScreen,
+.authBody {
+  min-height: 100%;
+}
+
+.splashScreen {
+  position: relative;
+  justify-content: center;
+}
+
+.splashCenter,
+.authTop {
+  display: grid;
+  gap: 16px;
+}
+
+.authTop {
+  justify-items: stretch;
+  margin: auto 0;
+}
+
+.authTopAlignStart {
+  margin: 0;
+}
+
+.authBody {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  flex: 1 1 auto;
+}
+
+.logoText {
+  display: grid;
+  gap: 4px;
+}
+
+.bottomAction {
+  position: absolute;
+  left: 20px;
+  right: 20px;
+  bottom: 24px;
+}
+
+.logoTitle,
+.title {
+  font-size: 24px;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  text-align: center;
+  font-weight: 500;
+  white-space: pre-line;
+}
+
+.logoSubtitle,
+.subtitle {
+  color: var(--color-text-secondary);
+  font-size: 16px;
+  line-height: 1.45;
+  letter-spacing: -0.03em;
+  text-align: center;
+}
+
+.headerBlock {
+  display: grid;
+  gap: 14px;
+}
+
+.authHeading {
+  display: grid;
+  gap: 8px;
+}
+
+.roleHeader {
+  display: grid;
+  gap: 16px;
+}
+
+.roleSection {
+  flex: 1 1 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.stepperHeader {
+  display: grid;
+  gap: 16px;
+}
+
+.stepperMeta {
+  display: grid;
+  gap: 8px;
+  justify-items: center;
+}
+
+.stepCounter {
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-primary-strong);
+  text-align: center;
+}
+
+.stepperTrack {
+  display: grid;
+  grid-template-columns: repeat(var(--step-count, 8), 1fr);
+  gap: 8px;
+}
+
+.stepperDot {
+  height: 6px;
+  border-radius: 999px;
+  background: rgba(111, 99, 255, 0.14);
+}
+
+.stepperDotActive {
+  background: linear-gradient(135deg, #6f63ff 0%, #9a86ff 100%);
+}
+
+.stack {
+  display: grid;
+  gap: 12px;
+}
+
+.stackSm {
+  display: grid;
+  gap: 8px;
+}
+
+.stackXs {
+  display: grid;
+  gap: 4px;
+}
+
+.backLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding-top: 4px;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.heroVector,
+.heroImage {
+  width: 112px;
+  height: 112px;
+  border-radius: 28px;
+  margin: 0 auto;
+  display: grid;
+  place-items: center;
+}
+
+.heroVectorCompact,
+.heroImageCompact {
+  width: 80px;
+  height: 80px;
+  border-radius: 22px;
+  margin: 0;
+}
+
+.heroImageLarge {
+  width: 228px;
+  height: 228px;
+  border-radius: 44px;
+}
+
+.heroVector {
+  background: linear-gradient(145deg, rgba(176, 213, 255, 0.8), rgba(111, 99, 255, 0.9));
+}
+
+.heroImage,
+.bannerImage {
+  background:
+    linear-gradient(rgba(255, 255, 255, 0.28), rgba(255, 255, 255, 0.28)),
+    url('/placeholder.jpg') center/cover no-repeat;
+}
+
+.heroLogo {
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  object-fit: cover;
+  display: block;
+}
+
+.heroShimmer {
+  position: relative;
+  overflow: hidden;
+}
+
+.heroShimmer::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    115deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.16) 35%,
+    rgba(255, 255, 255, 0.56) 50%,
+    rgba(255, 255, 255, 0.16) 65%,
+    transparent 100%
+  );
+  transform: translateX(-120%);
+  animation: shimmer 1.8s ease-in-out infinite;
+}
+
+.heroDiamond {
+  width: 40px;
+  height: 40px;
+  background: rgba(255, 255, 255, 0.92);
+  border-radius: 12px;
+  transform: rotate(45deg);
+}
+
+.formGrid,
+.roleStack,
+.list,
+.cardGrid {
+  display: grid;
+  gap: 8px;
+  width: 100%;
+}
+
+.inlineLink {
+  color: var(--color-primary-strong);
+  font-weight: 400;
+  text-decoration: underline;
+  text-align: center;
+  display: inline-block;
+  width: 100%;
+}
+
+.footerLink {
+  color: var(--color-primary-strong);
+  font-weight: 400;
+  text-decoration: underline;
+}
+
+.footerText {
+  margin-top: 4px;
+  font-size: 16px;
+  color: rgba(31, 36, 61, 0.48);
+  text-align: center;
+  letter-spacing: -0.03em;
+}
+
+.footerText span {
+  display: block;
+}
+
+.footerSubtext {
+  margin-top: 2px;
+}
+
+.statusNote {
+  padding: 0 14px;
+  min-height: 54px;
+  border-radius: 18px;
+  font-size: 14px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.info {
+  color: var(--color-primary-strong);
+  background: rgba(111, 99, 255, 0.12);
+}
+
+.success {
+  color: var(--color-success);
+  background: rgba(37, 179, 106, 0.1);
+}
+
+.danger {
+  color: var(--color-danger);
+  background: rgba(219, 92, 118, 0.1);
+}
+
+.bannerImage {
+  width: 100%;
+  height: 126px;
+  border-radius: 22px;
+}
+
+.codeRow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+}
+
+.codeInput {
+  width: 44px;
+  height: 52px;
+  border-radius: 20px;
+  border: 1px solid rgba(111, 99, 255, 0.2);
+  background: #fff;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--color-text);
+  text-align: center;
+  outline: none;
+}
+
+.cardLabel {
+  font-size: 13px;
+  opacity: 0.85;
+}
+
+.cardValue {
+  font-size: 24px;
+  line-height: 1.1;
+}
+
+.cardDescription {
+  font-size: 13px;
+  color: var(--color-text-secondary);
+}
+
+.listCard {
+  box-shadow: none;
+  background: var(--color-surface-muted);
+  padding: 8px 10px;
+}
+
+.listRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.listText {
+  font-size: 14px;
+}
+
+.badge {
+  padding: 8px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.successBadge {
+  color: var(--color-success);
+  background: rgba(37, 179, 106, 0.12);
+}
+
+.mutedBadge {
+  color: var(--color-text-secondary);
+  background: #eef1f8;
+}
+
+.warningBadge {
+  color: #b67208;
+  background: rgba(245, 158, 11, 0.14);
+}
+
+.dangerBadge {
+  color: var(--color-danger);
+  background: rgba(219, 92, 118, 0.14);
+}
+
+.listApp {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.centerCard {
+  display: grid;
+  justify-items: center;
+  gap: 14px;
+  text-align: center;
+}
+
+.childOnboardingActions {
+  margin-top: auto;
+  display: grid;
+  gap: 8px;
+}
+
+.parentTextLink {
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  width: 100%;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.parentTextLinkPrimary {
+  color: var(--color-primary-strong);
+  font-size: 14px;
+  font-weight: 400;
+  text-decoration: underline;
+}
+
+.parentTextLinkSecondary {
+  color: var(--color-text-secondary);
+  font-size: 14px;
+}
+
+.bigCode {
+  font-size: 34px;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+}
+
+.appMark {
+  display: grid;
+  justify-items: center;
+  gap: 4px;
+}
+
+.appMarkTitle {
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.actionBlock {
+  width: 100%;
+  display: grid;
+  gap: 8px;
+}
+
+.bottomNavSlot {
+  margin-top: auto;
+}
+
+.helperText {
+  font-size: 14px;
+  line-height: 1.4;
+  color: rgba(31, 36, 61, 0.48);
+  text-align: center;
+  letter-spacing: -0.03em;
+}
+
+.textLink {
+  color: var(--color-primary-strong);
+  font-size: 14px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.modalOverlay {
+  position: relative;
+  flex: 1 1 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modalBackdrop {
+  position: absolute;
+  inset: 0;
+  border-radius: 28px;
+  background: rgba(0, 0, 0, 0.12);
+  backdrop-filter: blur(12px);
+}
+
+.modalCard {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  border-radius: 24px;
+  padding: 20px 20px 16px;
+  background: #fff;
+  box-shadow: var(--shadow-panel);
+  display: grid;
+  gap: 16px;
+}
+
+.modalClose {
+  position: absolute;
+  top: 12px;
+  right: 16px;
+  border: none;
+  background: transparent;
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.modalActions {
+  display: grid;
+  gap: 8px;
+}
+
+@keyframes shimmer {
+  100% {
+    transform: translateX(120%);
+  }
+}

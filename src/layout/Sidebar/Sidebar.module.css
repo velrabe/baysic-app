@@ -1,0 +1,120 @@
+.sidebar {
+  width: 320px;
+  height: calc(100vh - 48px);
+  padding: 24px 18px 24px 24px;
+  border-radius: 28px;
+  background: rgba(255, 255, 255, 0.8);
+  box-shadow: var(--shadow-panel);
+  backdrop-filter: blur(18px);
+  overflow: auto;
+}
+
+.header {
+  margin-bottom: 20px;
+}
+
+.title {
+  font-size: 24px;
+  line-height: 1.1;
+}
+
+.subtitle {
+  margin-top: 8px;
+  color: var(--color-text-secondary);
+  font-size: 14px;
+}
+
+.tree {
+  display: grid;
+  gap: 18px;
+}
+
+.group {
+  display: grid;
+  gap: 8px;
+}
+
+.groupItems {
+  display: grid;
+  gap: 10px;
+  padding-left: 12px;
+  border-left: 1px solid rgba(111, 99, 255, 0.14);
+}
+
+.groupLabel {
+  font-size: 13px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-text-secondary);
+}
+
+.nestedLabel {
+  text-transform: none;
+  letter-spacing: 0;
+  font-size: 14px;
+  color: var(--color-text);
+}
+
+.link {
+  padding: 10px 12px;
+  border-radius: 14px;
+  color: var(--color-text-secondary);
+  transition:
+    background var(--transition-base),
+    color var(--transition-base);
+}
+
+.link:hover {
+  background: rgba(111, 99, 255, 0.08);
+}
+
+.active {
+  color: var(--color-primary-strong);
+  background: rgba(111, 99, 255, 0.12);
+  font-weight: 700;
+}
+
+.screenGroup {
+  display: grid;
+  gap: 8px;
+}
+
+.screenGroupHeader {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.mainLink {
+  flex: 1 1 auto;
+  font-weight: 600;
+}
+
+.toggle {
+  width: 28px;
+  height: 28px;
+  display: grid;
+  place-items: center;
+  border-radius: 999px;
+  color: var(--color-text-secondary);
+  background: rgba(111, 99, 255, 0.08);
+  transition:
+    transform var(--transition-base),
+    background var(--transition-base);
+}
+
+.toggleOpen {
+  transform: rotate(180deg);
+}
+
+.stateList {
+  display: grid;
+  gap: 6px;
+  padding-left: 10px;
+}
+
+.stateLink {
+  padding: 8px 12px;
+  font-size: 13px;
+}

@@ -1,0 +1,17 @@
+.frame {
+  width: var(--phone-width);
+  height: var(--phone-height);
+  background: var(--color-surface);
+  border-radius: 36px;
+  overflow: hidden;
+  box-shadow: 0 36px 72px rgba(26, 32, 70, 0.2);
+  border: 1px solid rgba(18, 24, 52, 0.06);
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+}
+
+.content {
+  height: var(--phone-content-height);
+  background: linear-gradient(180deg, #ffffff 0%, #fbfbff 100%);
+}

@@ -1,0 +1,20 @@
+.card {
+  padding: 18px;
+  border-radius: 24px;
+  background: var(--color-surface);
+  border: 1px solid rgba(233, 234, 245, 0.9);
+  box-shadow: var(--shadow-card);
+}
+
+.muted {
+  background: #fafbff;
+}
+
+.accent {
+  color: #fff;
+  background: linear-gradient(145deg, #6f63ff 0%, #9f8cff 100%);
+}
+
+.noPadding {
+  padding: 0;
+}

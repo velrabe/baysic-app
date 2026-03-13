@@ -1,0 +1,787 @@
+import { mockApps } from './mockApps';
+import { mockChildren } from './mockChildren';
+import { mockTasks } from './mockTasks';
+
+const childTabs = [
+  { label: 'Главная', to: '/child/home', icon: '⌂', activePaths: ['/child/home'] },
+  { label: 'Задания', to: '/child/tasks', icon: '✓', activePaths: ['/child/tasks'] },
+  { label: 'Награды', to: '/child/rewards', icon: '★', activePaths: ['/child/rewards', '/child/wishlist'] },
+  { label: 'Друзья', to: '/child/friends', icon: '☺', activePaths: ['/child/friends'] },
+];
+
+const parentTabs = [
+  { label: 'Дом', to: '/parent/dashboard-online', icon: '⌂' },
+  { label: 'Контент', to: '/parent/apps-list', icon: '◈' },
+  { label: 'Ребенок', to: '/parent/child-profile', icon: '◎' },
+  { label: 'Профиль', to: '/parent/profile', icon: '◌' },
+];
+
+const parentChildSwitcher = [
+  { label: mockChildren[0].name, to: '/parent/dashboard-online' },
+  { label: mockChildren[1].name, to: '/parent/dashboard-offline' },
+  { label: mockChildren[2].name, to: '/parent/dashboard-limit-exceeded' },
+];
+
+const registerBaseFields = [
+  { placeholder: 'Введите имя', value: '', type: 'text' },
+  { placeholder: 'Email / Номер телефона', value: '', type: 'text' },
+  { placeholder: 'Пароль', value: '', type: 'password' },
+  { placeholder: 'Повторите пароль', value: '', type: 'password' },
+];
+
+const loginFields = [
+  { placeholder: 'Email / Номер телефона', value: '', type: 'text' },
+  { placeholder: 'Пароль', value: '', type: 'password' },
+];
+
+const childCodeFields = [
+  { placeholder: '0', value: '', type: 'text' },
+  { placeholder: '0', value: '', type: 'text' },
+  { placeholder: '0', value: '', type: 'text' },
+  { placeholder: '0', value: '', type: 'text' },
+  { placeholder: '0', value: '', type: 'text' },
+  { placeholder: '0', value: '', type: 'text' },
+];
+
+const withLoginFooter = (config) => ({
+  ...config,
+  footerText: 'Или ',
+  footerSubtext: 'если вы уже зарегистрированы',
+  footerLink: { label: 'войдите,', to: '/auth-parent/login' },
+});
+
+const withRegisterFooter = (config) => ({
+  ...config,
+  footerText: 'Или ',
+  footerSubtext: 'если вы уже зарегистрированы',
+  footerLink: { label: 'войдите,', to: '/auth-parent/login' },
+});
+
+const withLoginRegisterFooter = (config) => ({
+  ...config,
+  footerText: 'Или ',
+  footerLink: { label: 'зарегистрируйтесь,', to: '/auth-parent/register' },
+  footerSubtext: 'если у вас еще нет профиля родителя',
+});
+
+const parentCollectionBase = {
+  childSwitcher: parentChildSwitcher,
+  bottomNav: parentTabs,
+};
+
+const permissionSteps = [
+  {
+    slug: 'accessibility',
+    title: 'Разрешение Accessibility',
+    cardTitle: 'Расширенное управление устройством',
+    cardText: 'Разрешите Baysic отслеживать активные приложения и управлять ограничениями.',
+    bullets: ['Нужно для контроля времени экрана', 'Нужно для блокировки запрещенных приложений'],
+  },
+  {
+    slug: 'delete-protection',
+    title: 'Защита от удаления',
+    cardTitle: 'Защита приложения',
+    cardText: 'Запретите удаление или отключение сервиса контроля без разрешения родителя.',
+    bullets: ['Системная защита активируется один раз', 'После выдачи контроль нельзя снять незаметно'],
+  },
+  {
+    slug: 'notifications',
+    title: 'Разрешение уведомлений',
+    cardTitle: 'Служебные уведомления',
+    cardText: 'Нужно показывать напоминания, задания и предупреждения о лимитах.',
+    bullets: ['Ребенок будет видеть напоминания о заданиях', 'Система покажет уведомление о блокировке'],
+  },
+  {
+    slug: 'battery',
+    title: 'Режим оптимизации батареи',
+    cardTitle: 'Стабильная работа в фоне',
+    cardText: 'Отключите агрессивную экономию батареи для приложения Baysic.',
+    bullets: ['Это сохраняет фоновые проверки активными', 'Иначе часть ограничений может выключаться системой'],
+  },
+  {
+    slug: 'location',
+    title: 'Геолокация',
+    cardTitle: 'Разрешение на геолокацию',
+    cardText: 'Нужно для сценариев зон "дом", "школа" и уведомлений вне безопасной зоны.',
+    bullets: ['Используется только для семейного сценария', 'Родитель увидит статус местоположения ребенка'],
+  },
+  {
+    slug: 'activity',
+    title: 'Физическая активность',
+    cardTitle: 'Разрешение на активность',
+    cardText: 'Нужно для будущих игровых и привычечных механик, связанных с движением.',
+    bullets: ['Используется в задачах и привычках', 'Можно связать с наградами ребенка'],
+  },
+  {
+    slug: 'pin',
+    title: 'Создать пин-код',
+    cardTitle: 'Пин-код защиты',
+    cardText: 'Создайте код, чтобы менять критичные настройки только с разрешения взрослого.',
+    bullets: ['Код нужен для выхода из защищенных сценариев', 'Пин-код не хранится в прототипе, но состояние экрана показано'],
+  },
+  {
+    slug: 'limits',
+    title: 'Временные ограничения',
+    cardTitle: 'Настройка лимитов',
+    cardText: 'Подтвердите стартовые ограничения устройства для ребенка.',
+    bullets: ['Дневной лимит будет применяться после онбординга', 'После завершения откроется главный экран ребенка'],
+  },
+];
+
+const permissionScreenContent = Object.fromEntries(
+  permissionSteps.flatMap((step, index) => {
+    const stepNumber = index + 1;
+    const nextStep = permissionSteps[index + 1];
+    const pendingId = `child.onboarding.${step.slug}.pending`;
+    const doneId = `child.onboarding.${step.slug}.done`;
+
+    return [
+      [
+        pendingId,
+        {
+          variant: 'child-onboarding',
+          step: stepNumber,
+          totalSteps: permissionSteps.length,
+          title: step.title,
+          description: 'На этом шаге нужно выдать системное разрешение для устройства ребенка.',
+          cardTitle: step.cardTitle,
+          cardText: step.cardText,
+          bullets: step.bullets,
+          backTo: index === 0 ? '/auth-child/code-success' : `/child/onboarding/${permissionSteps[index - 1].slug}-done`,
+          primaryAction: { label: 'Выдать разрешение', to: `/child/onboarding/${step.slug}-done` },
+          secondaryAction: { label: 'Войти как родитель', variant: 'text', to: '/system/stop-child-onboarding' },
+        },
+      ],
+      [
+        doneId,
+        {
+          variant: 'child-onboarding',
+          step: stepNumber,
+          totalSteps: permissionSteps.length,
+          title: step.title,
+          description: 'Разрешение успешно выдано. Можно переходить к следующему системному шагу.',
+          cardTitle: `${step.cardTitle} активирован`,
+          cardText: 'Разрешение активно и применяется к устройству ребенка.',
+          bullets: step.bullets,
+          backTo: `/child/onboarding/${step.slug}`,
+          statusNote: { tone: 'success', text: 'Разрешение выдано' },
+          primaryAction: nextStep
+            ? { label: 'Следующий шаг', to: `/child/onboarding/${nextStep.slug}` }
+            : { label: 'Открыть главный экран ребенка', to: '/child/home' },
+          secondaryAction: { label: 'Открыть системный экран', to: '/system/app-blocked' },
+        },
+      ],
+    ];
+  }),
+);
+
+export const screenContent = {
+  'onboarding.splash.loading': {
+    variant: 'splash',
+    title: 'Baysic',
+    subtitle: 'Родительский контроль и геймификация',
+    logoType: 'logo',
+    imageShimmer: true,
+  },
+  'onboarding.splash.error': {
+    variant: 'splash',
+    title: 'Baysic',
+    subtitle: 'Родительский контроль и геймификация',
+    badge: 'Ошибка сети',
+    tone: 'danger',
+    primaryAction: { label: 'Повторить', to: '/onboarding/splash-loading' },
+    logoType: 'logo',
+    pushActionToBottom: true,
+  },
+  'onboarding.role.default': {
+    variant: 'role-select',
+    title: 'Выберите роль\nдля создания профиля',
+    subtitle: '',
+    roles: [
+      { title: 'Взрослый', description: 'Управление и контроль', to: '/auth-parent/register', image: 'photo', tone: 'parent' },
+      { title: 'Ребенок', description: 'Задания и награды', to: '/auth-child/code', image: 'photo', tone: 'child' },
+    ],
+    footerText: 'Или ',
+    footerLink: { label: 'Войдите', to: '/auth-parent/login' },
+    footerSubtext: 'если вы уже зарегистрированы',
+  },
+  'onboarding.role.parent': {
+    variant: 'role-select',
+    title: 'Выберите роль для создания профиля',
+    subtitle: 'Статичное состояние выбранной роли взрослого.',
+    roles: [
+      { title: 'Взрослый', description: 'Переход к регистрации родителя', to: '/auth-parent/register', image: 'photo', tone: 'parent' },
+      { title: 'Ребенок', description: 'Переход к авторизации ребенка', to: '/auth-child/code', image: 'photo', tone: 'child' },
+    ],
+    footerLink: { label: 'Или войдите', to: '/auth-parent/login' },
+  },
+  'onboarding.role.child': {
+    variant: 'role-select',
+    title: 'Выберите роль для создания профиля',
+    subtitle: 'Статичное состояние выбранной роли ребенка.',
+    roles: [
+      { title: 'Взрослый', description: 'Переход к регистрации взрослого', to: '/auth-parent/register', image: 'photo', tone: 'parent' },
+      { title: 'Ребенок', description: 'Переход к авторизации ребенка', to: '/auth-child/code', image: 'photo', tone: 'child' },
+    ],
+    footerLink: { label: 'Или войдите', to: '/auth-parent/login' },
+  },
+
+  'auth.parent.register.default': withRegisterFooter({
+    variant: 'auth-form',
+    title: 'Регистрация взрослого',
+    description: '',
+    backTo: '/onboarding/role-select',
+    fields: registerBaseFields,
+    primaryAction: { label: 'Создать аккаунт', to: '/auth-parent/register-loading' },
+    helperText:
+      'Ваши данные защищены и используются для безопасного управления экранным временем вашего ребенка',
+  }),
+  'auth.parent.register.invalid-email': withRegisterFooter({
+    variant: 'auth-form',
+    title: 'Регистрация взрослого',
+    description: '',
+    backTo: '/auth-parent/register',
+    fields: [
+      { ...registerBaseFields[0], value: 'Анна' },
+      { ...registerBaseFields[1], value: 'anna@', status: 'error', tooltip: 'Введите корректный email' },
+      { ...registerBaseFields[2], value: '12345678' },
+      { ...registerBaseFields[3], value: '12345678' },
+    ],
+    primaryAction: { label: 'Создать аккаунт', to: '/auth-parent/register-invalid-email' },
+    helperText:
+      'Ваши данные защищены и используются для безопасного управления экранным временем вашего ребенка',
+  }),
+  'auth.parent.register.weak-password': withRegisterFooter({
+    variant: 'auth-form',
+    title: 'Регистрация взрослого',
+    description: '',
+    backTo: '/auth-parent/register',
+    fields: [
+      { ...registerBaseFields[0], value: 'Иван' },
+      { ...registerBaseFields[1], value: 'ivan123@gmail.com' },
+      { ...registerBaseFields[2], value: '1234', status: 'error', tooltip: 'Слишком короткий пароль' },
+      { ...registerBaseFields[3], value: '1234' },
+    ],
+    primaryAction: { label: 'Создать аккаунт', to: '/auth-parent/register-weak-password' },
+    helperText:
+      'Ваши данные защищены и используются для безопасного управления экранным временем вашего ребенка',
+  }),
+  'auth.parent.register.password-mismatch': withRegisterFooter({
+    variant: 'auth-form',
+    title: 'Регистрация взрослого',
+    description: '',
+    backTo: '/auth-parent/register',
+    fields: [
+      { ...registerBaseFields[0], value: 'Иван' },
+      { ...registerBaseFields[1], value: 'ivan123@gmail.com' },
+      { ...registerBaseFields[2], value: '12345678' },
+      { ...registerBaseFields[3], value: '87654321', status: 'error', tooltip: 'Пароли не совпадают' },
+    ],
+    primaryAction: { label: 'Создать аккаунт', to: '/auth-parent/register-password-mismatch' },
+    helperText:
+      'Ваши данные защищены и используются для безопасного управления экранным временем вашего ребенка',
+  }),
+  'auth.parent.register.already-exists': withRegisterFooter({
+    variant: 'auth-form',
+    title: 'Регистрация взрослого',
+    description: '',
+    backTo: '/auth-parent/register',
+    fields: [
+      { ...registerBaseFields[0], value: 'Анна' },
+      { ...registerBaseFields[1], value: 'anna@baysic.ru', status: 'error', tooltip: 'Пользователь уже зарегистрирован' },
+      { ...registerBaseFields[2], value: '12345678' },
+      { ...registerBaseFields[3], value: '12345678' },
+    ],
+    primaryAction: { label: 'Создать аккаунт', to: '/auth-parent/register-already-exists' },
+    helperText:
+      'Ваши данные защищены и используются для безопасного управления экранным временем вашего ребенка',
+  }),
+  'auth.parent.register.loading': withRegisterFooter({
+    variant: 'auth-form',
+    title: 'Регистрация взрослого',
+    description: '',
+    backTo: '/auth-parent/register',
+    fields: [
+      { ...registerBaseFields[0], value: 'Иван' },
+      { ...registerBaseFields[1], value: 'ivan123@gmail.com' },
+      { ...registerBaseFields[2], value: '12345678' },
+      { ...registerBaseFields[3], value: '12345678' },
+    ],
+    primaryAction: { label: 'Создать аккаунт' },
+    primaryDisabled: true,
+    primaryShimmer: true,
+    helperText:
+      'Ваши данные защищены и используются для безопасного управления экранным временем вашего ребенка',
+  }),
+
+  'auth.parent.confirm.default': withLoginFooter({
+    variant: 'code',
+    title: 'Подтверждение регистрации',
+    description: 'На ваш email отправлен код для подтверждения аккаунта.',
+    backTo: '/auth-parent/register',
+    code: '0 0 0 0 0 0',
+    primaryAction: { label: 'Подтвердить', to: '/auth-parent/confirm-code-success' },
+    resendLink: { label: 'Отправить код повторно', to: '/auth-parent/confirm-code-expired' },
+  }),
+  'auth.parent.confirm.wrong': withLoginFooter({
+    variant: 'code',
+    title: 'Подтверждение регистрации',
+    description: 'Введите корректный код подтверждения.',
+    backTo: '/auth-parent/confirm-code',
+    code: '1 1 1 1 1 1',
+    tone: 'danger',
+    statusNote: { tone: 'danger', text: 'Неверный код подтверждения' },
+    primaryAction: { label: 'Подтвердить', to: '/auth-parent/confirm-code-wrong' },
+    resendLink: { label: 'Отправить код повторно', to: '/auth-parent/confirm-code' },
+  }),
+  'auth.parent.confirm.expired': withLoginFooter({
+    variant: 'code',
+    title: 'Подтверждение регистрации',
+    description: 'Срок действия кода истек. Запросите новый код.',
+    backTo: '/auth-parent/confirm-code',
+    code: '0 0 0 0 0 0',
+    tone: 'danger',
+    statusNote: { tone: 'danger', text: 'Код истек' },
+    primaryAction: { label: 'Подтвердить', to: '/auth-parent/confirm-code' },
+    resendLink: { label: 'Отправить код повторно', to: '/auth-parent/confirm-code' },
+  }),
+  'auth.parent.confirm.success': withLoginFooter({
+    variant: 'code',
+    title: 'Регистрация подтверждена',
+    description: 'Профиль создан. Сейчас откроется следующий экран.',
+    backTo: '/auth-parent/confirm-code',
+    code: '2 4 6 8 1 0',
+    tone: 'success',
+    primaryAction: { label: 'Подтвердить' },
+    primaryDisabled: true,
+    primaryShimmer: true,
+  }),
+
+  'auth.parent.login.default': withLoginRegisterFooter({
+    variant: 'auth-form',
+    title: 'Вход',
+    description: '',
+    backTo: '/onboarding/role-select',
+    fields: loginFields,
+    primaryAction: { label: 'Войти', to: '/auth-parent/login-success' },
+    auxiliaryLink: { label: 'Забыли пароль?', to: '/auth-parent/restore-password' },
+  }),
+  'auth.parent.login.wrong-password': withLoginRegisterFooter({
+    variant: 'auth-form',
+    title: 'Вход',
+    description: '',
+    backTo: '/auth-parent/login',
+    fields: [
+      { ...loginFields[0], value: 'ivan123@gmail.com' },
+      { ...loginFields[1], value: '1234', status: 'error', tooltip: 'Неверный пароль' },
+    ],
+    primaryAction: { label: 'Войти', to: '/auth-parent/login-wrong-password' },
+    auxiliaryLink: { label: 'Забыли пароль?', to: '/auth-parent/restore-password' },
+  }),
+  'auth.parent.login.user-not-found': withLoginRegisterFooter({
+    variant: 'auth-form',
+    title: 'Вход',
+    description: '',
+    backTo: '/auth-parent/login',
+    fields: [
+      { ...loginFields[0], value: 'ghost@baysic.ru', status: 'error', tooltip: 'Пользователь не найден' },
+      { ...loginFields[1], value: '12345678' },
+    ],
+    primaryAction: { label: 'Войти', to: '/auth-parent/login-user-not-found' },
+    auxiliaryLink: { label: 'Забыли пароль?', to: '/auth-parent/restore-password' },
+  }),
+  'auth.parent.login.success': withLoginRegisterFooter({
+    variant: 'auth-form',
+    title: 'Вход',
+    description: '',
+    backTo: '/auth-parent/login',
+    fields: [
+      { ...loginFields[0], value: 'ivan123@gmail.com' },
+      { ...loginFields[1], value: '12345678' },
+    ],
+    primaryAction: { label: 'Открыть dashboard', to: '/parent/dashboard-online' },
+    statusNote: { tone: 'success', text: 'Пользователь успешно авторизован' },
+  }),
+
+  'auth.parent.restore.default': withLoginRegisterFooter({
+    variant: 'auth-form',
+    title: 'Восстановление пароля',
+    description: 'На ваш email/телефон будут высланы инструкции по восстановлению доступа к учетной записи.',
+    backTo: '/auth-parent/login',
+    fields: [{ placeholder: 'Email / Номер телефона', value: '', type: 'text' }],
+    primaryAction: { label: 'Восстановить', to: '/auth-parent/restore-password-sent' },
+  }),
+  'auth.parent.restore.not-found': withLoginRegisterFooter({
+    variant: 'auth-form',
+    title: 'Восстановление пароля',
+    description: '',
+    backTo: '/auth-parent/restore-password',
+    fields: [{ placeholder: 'Email / Номер телефона', value: 'none@baysic.ru', type: 'text', status: 'error', tooltip: 'Email не найден' }],
+    primaryAction: { label: 'Восстановить', to: '/auth-parent/restore-password' },
+    primaryDisabled: true,
+  }),
+  'auth.parent.restore.sent': withLoginRegisterFooter({
+    variant: 'auth-form',
+    title: 'Восстановление пароля',
+    description: '',
+    backTo: '/auth-parent/login',
+    fields: [{ placeholder: 'Email / Номер телефона', value: 'ivan123@gmail.com', type: 'text' }],
+    statusNote: { tone: 'success', text: 'Письмо отправлено' },
+  }),
+
+  'auth.child.code.default': {
+    variant: 'code',
+    title: 'Введите код для\nавторизации ребенка',
+    description: 'Код можно найти в приложении родителя в\nразделе «профиль ребенка».',
+    backTo: '/onboarding/role-select',
+    code: '0 0 0 - 0 0 0',
+    primaryAction: { label: 'Войти', to: '/auth-child/code-success' },
+    bannerImage: true,
+  },
+  'auth.child.code.wrong': {
+    variant: 'code',
+    title: 'Введите код для\nавторизации ребенка',
+    description: 'Код можно найти в приложении родителя в\nразделе «профиль ребенка».',
+    backTo: '/auth-child/code',
+    code: '0 0 0 - 0 0 0',
+    tone: 'danger',
+    statusNote: { tone: 'danger', text: 'Введен некорректный код авторизации' },
+    primaryAction: { label: 'Войти', to: '/auth-child/code-wrong' },
+    bannerImage: true,
+  },
+  'auth.child.code.expired': {
+    variant: 'code',
+    title: 'Введите код для\nавторизации ребенка',
+    description: 'Код можно найти в приложении родителя в\nразделе «профиль ребенка».',
+    backTo: '/auth-child/code',
+    code: '1 1 1 - 1 1 1',
+    tone: 'danger',
+    statusNote: { tone: 'danger', text: 'Код истек' },
+    primaryAction: { label: 'Вернуться', to: '/auth-child/code' },
+    bannerImage: true,
+  },
+  'auth.child.code.success': {
+    variant: 'code',
+    title: 'Введите код для\nавторизации ребенка',
+    description: 'Код можно найти в приложении родителя в\nразделе «профиль ребенка».',
+    backTo: '/auth-child/code',
+    code: '1 2 3 - 4 5 6',
+    tone: 'success',
+    statusNote: { tone: 'success', text: 'Авторизация ребенка успешна' },
+    primaryAction: { label: 'Войти' },
+    primaryDisabled: true,
+    primaryShimmer: true,
+    bannerImage: true,
+  },
+
+  ...permissionScreenContent,
+
+  'parent.dashboard.no-child': {
+    variant: 'dashboard',
+    title: 'Дом',
+    subtitle: 'Подключите первого ребенка, чтобы запустить семейный сценарий.',
+    childSwitcher: parentChildSwitcher,
+    primaryAction: { label: 'Добавить ребенка', to: '/parent/add-child-intro' },
+    cards: [
+      { title: 'Семейный круг', value: '0 детей', description: 'Еще никого не подключено.' },
+      { title: 'Экранное время', value: 'Нет данных', description: 'Появится после привязки ребенка.' },
+    ],
+    bottomNav: parentTabs,
+  },
+  'parent.dashboard.online': {
+    variant: 'dashboard',
+    title: 'Дом',
+    subtitle: 'Главный экран родителя с текущим состоянием ребенка.',
+    childSwitcher: parentChildSwitcher,
+    primaryAction: { label: 'Дать 15 минут', to: '/parent/dashboard-online' },
+    cards: [
+      { title: 'Осталось экранного времени', value: mockChildren[0].screenTimeLeft, description: 'Уже использовано 2 ч 10 мин' },
+      { title: 'Геолокация', value: 'Дома', description: 'Зона активна, ребенок онлайн.' },
+      { title: 'Задания', value: '2 из 3 выполнено', description: 'Одно задание еще ждет подтверждения.' },
+      { title: 'Баланс', value: `${mockChildren[0].earnedPoints} баллов`, description: `${mockChildren[0].earnedRubles} рублей в копилке.` },
+    ],
+    taskList: mockTasks,
+    bottomNav: parentTabs,
+  },
+  'parent.dashboard.offline': {
+    variant: 'dashboard',
+    title: 'Дом',
+    subtitle: 'Ребенок сейчас офлайн, но последние данные сохранены.',
+    childSwitcher: parentChildSwitcher,
+    primaryAction: { label: 'Открыть геолокацию', to: '/parent/geo-out-of-zone' },
+    cards: [
+      { title: 'Статус устройства', value: 'Офлайн', description: 'Последняя активность 23 минуты назад.' },
+      { title: 'Последняя геолокация', value: 'Школа', description: 'Обновление было до потери связи.' },
+      { title: 'Задания', value: '1 задание ожидает', description: 'Проверьте, что осталось на сегодня.' },
+      { title: 'Баланс', value: `${mockChildren[1].earnedPoints} баллов`, description: `${mockChildren[1].earnedRubles} рублей в копилке.` },
+    ],
+    taskList: mockTasks,
+    bottomNav: parentTabs,
+  },
+  'parent.dashboard.limit-exceeded': {
+    variant: 'dashboard',
+    title: 'Дом',
+    subtitle: 'Дневной лимит экранного времени исчерпан.',
+    childSwitcher: parentChildSwitcher,
+    primaryAction: { label: 'Разблокировать на 15 минут', to: '/parent/dashboard-online' },
+    cards: [
+      { title: 'Экранное время', value: '0 мин', description: 'Лимит на сегодня превышен.' },
+      { title: 'Статус', value: 'Устройство ограничено', description: 'Сейчас активен режим блокировки.' },
+      { title: 'Геолокация', value: 'Дома', description: 'Ребенок находится дома.' },
+      { title: 'Баланс', value: `${mockChildren[2].earnedPoints} баллов`, description: `${mockChildren[2].earnedRubles} рублей в копилке.` },
+    ],
+    taskList: mockTasks,
+    bottomNav: parentTabs,
+  },
+
+  'parent.add-child.intro': {
+    variant: 'add-child',
+    title: 'Добавить ребенка',
+    subtitle: 'Получите временный код и передайте его ребенку для подключения.',
+    primaryAction: { label: 'Получить код', to: '/parent/add-child-code-active' },
+    secondaryAction: { label: 'Вернуться в дом', to: '/parent/dashboard-no-child' },
+  },
+  'parent.add-child.code-active': {
+    variant: 'add-child',
+    title: 'Код для подключения ребенка',
+    subtitle: 'Покажите код ребенку. Он действует ограниченное время.',
+    code: '123-456',
+    primaryAction: { label: 'Открыть детский ввод кода', to: '/auth-child/code' },
+    secondaryAction: { label: 'Показать истекший код', to: '/parent/add-child-code-expired' },
+  },
+  'parent.add-child.code-expired': {
+    variant: 'add-child',
+    title: 'Код истек',
+    subtitle: 'Нужно выпустить новый код подключения для ребенка.',
+    code: '000-000',
+    primaryAction: { label: 'Получить новый код', to: '/parent/add-child-code-active' },
+    secondaryAction: { label: 'Вернуться в дом', to: '/parent/dashboard-online' },
+  },
+
+  'parent.tasks.list': {
+    variant: 'collection',
+    title: 'Задания',
+    subtitle: 'Все задачи ребенка на сегодня и ближайшие даты.',
+    ...parentCollectionBase,
+    leadCard: { title: 'Активных задач', value: '3', description: 'Одна задача уже выполнена.' },
+    sections: [
+      { title: 'Сегодня', items: mockTasks },
+      { title: 'Действия', items: ['Создать новую задачу', 'Открыть календарь задач'] },
+    ],
+    primaryAction: { label: 'Создать задачу', to: '/parent/tasks-create' },
+    secondaryAction: { label: 'Редактировать задачу', to: '/parent/tasks-edit' },
+  },
+  'parent.tasks.create': {
+    variant: 'collection',
+    title: 'Создание задачи',
+    subtitle: 'Статичная форма новой задачи.',
+    ...parentCollectionBase,
+    leadCard: { title: 'Требуется фото', value: 'Да', description: 'Ребенок прикрепит фото результата.' },
+    sections: [
+      { title: 'Основные поля', items: ['Название: Сделать уроки', 'Описание: Математика и чтение', 'Стоимость: 120 рублей'] },
+      { title: 'Параметры', items: ['Дата: Сегодня, 18:00', 'Повтор: Будни', 'Валюта: Рубли'] },
+    ],
+    primaryAction: { label: 'Сохранить задачу', to: '/parent/tasks' },
+    secondaryAction: { label: 'Перейти к удалению', to: '/parent/tasks-delete-confirm' },
+  },
+  'parent.tasks.edit': {
+    variant: 'collection',
+    title: 'Редактирование задачи',
+    subtitle: 'Статичное состояние редактирования существующей задачи.',
+    ...parentCollectionBase,
+    leadCard: { title: 'Задача', value: 'Убрать комнату', description: 'Стоимость: 120 рублей' },
+    sections: [
+      { title: 'Изменяемые поля', items: ['Описание: убрать игрушки и стол', 'Дата: Сегодня, 19:00', 'Требуется фото: Да'] },
+    ],
+    primaryAction: { label: 'Сохранить изменения', to: '/parent/tasks' },
+    secondaryAction: { label: 'Удалить задачу', to: '/parent/tasks-delete-confirm' },
+  },
+  'parent.tasks.delete-confirm': {
+    variant: 'collection',
+    title: 'Удаление задачи',
+    subtitle: 'Подтверждение удаления выбранной задачи.',
+    ...parentCollectionBase,
+    leadCard: { title: 'Будет удалена задача', value: 'Сделать уроки', description: 'После подтверждения задача исчезнет из списка.' },
+    sections: [
+      { title: 'Что произойдет', items: ['Задача удалится из плана ребенка', 'Баллы и рубли по ней начисляться не будут'] },
+    ],
+    primaryAction: { label: 'Подтвердить удаление', to: '/parent/tasks' },
+    secondaryAction: { label: 'Отмена', to: '/parent/tasks-edit' },
+  },
+
+  'parent.geo.in-zone': {
+    variant: 'collection',
+    title: 'Геолокация',
+    subtitle: 'Ребенок находится в доверенной зоне.',
+    ...parentCollectionBase,
+    leadCard: { title: 'Текущий статус', value: 'Дома', description: 'Радиус зоны: 50 метров' },
+    sections: [
+      { title: 'Активные зоны', items: ['Дом', 'Школа', 'Кружок'] },
+      { title: 'Действия', items: ['Добавить новую зону', 'Изменить радиус зоны'] },
+    ],
+    primaryAction: { label: 'Показать выход из зоны', to: '/parent/geo-out-of-zone' },
+  },
+  'parent.geo.out-of-zone': {
+    variant: 'collection',
+    title: 'Геолокация',
+    subtitle: 'Ребенок покинул доверенную зону.',
+    ...parentCollectionBase,
+    leadCard: { title: 'Текущий статус', value: 'Вне зоны', description: 'Последнее место: возле школы' },
+    sections: [
+      { title: 'Активные зоны', items: ['Дом', 'Школа', 'Кружок'] },
+      { title: 'Возможные действия', items: ['Связаться с ребенком', 'Проверить историю маршрута'] },
+    ],
+    primaryAction: { label: 'Показать возврат в зону', to: '/parent/geo-in-zone' },
+  },
+
+  'parent.apps.list': {
+    variant: 'apps',
+    title: 'Контроль приложений',
+    subtitle: 'Статичный список приложений ребенка с фильтрами и статусами.',
+    childSwitcher: parentChildSwitcher,
+    apps: mockApps,
+    primaryAction: { label: 'Открыть YouTube', to: '/parent/app-settings-limited' },
+    bottomNav: parentTabs,
+  },
+  'parent.apps.settings.limited': {
+    variant: 'apps',
+    title: 'Настройки приложения',
+    subtitle: 'Пример состояния ограниченного приложения.',
+    childSwitcher: parentChildSwitcher,
+    appDetails: { name: 'YouTube', status: 'Ограничено', limit: '30 минут в день', schedule: 'Будни 16:00–18:00' },
+    primaryAction: { label: 'Вернуться в список', to: '/parent/apps-list' },
+    secondaryAction: { label: 'Показать блокировку', to: '/parent/app-settings-blocked' },
+    bottomNav: parentTabs,
+  },
+  'parent.apps.settings.blocked': {
+    variant: 'apps',
+    title: 'Настройки приложения',
+    subtitle: 'Пример состояния полностью заблокированного приложения.',
+    childSwitcher: parentChildSwitcher,
+    appDetails: { name: 'TikTok', status: 'Заблокировано', limit: '0 минут', schedule: 'Всегда заблокировано' },
+    primaryAction: { label: 'Вернуться в список', to: '/parent/apps-list' },
+    secondaryAction: { label: 'Открыть системный экран', to: '/system/app-blocked' },
+    bottomNav: parentTabs,
+  },
+
+  'parent.content.filter.default': {
+    variant: 'collection',
+    title: 'Контент-фильтр',
+    subtitle: 'Настройка категорий нежелательного контента.',
+    ...parentCollectionBase,
+    leadCard: { title: 'Уровень защиты', value: 'Средний', description: 'Можно переключить на мягкий или строгий режим.' },
+    sections: [
+      { title: 'Категории', items: ['Взрослый контент: Да', 'Азартные игры: Да', 'Алкоголь: Да', 'Насилие: Да', 'Соцсети: Нет'] },
+      { title: 'Списки сайтов', items: ['Запрещенные сайты: 3', 'Разрешенные сайты: 5'] },
+    ],
+    primaryAction: { label: 'Открыть список приложений', to: '/parent/apps-list' },
+  },
+
+  'parent.profile.default': {
+    variant: 'profile',
+    title: 'Профиль родителя',
+    subtitle: 'Настройки семьи, подписки и подключенных аккаунтов.',
+    sections: [
+      { title: 'Личные данные', items: ['Имя: Анна', 'Телефон: +7 999 000-11-22', 'Роль: Мама'] },
+      { title: 'Подписка', items: ['Тариф: Family', 'Автопродление: включено'] },
+      { title: 'Подключенные аккаунты', items: ['Дети: Миша, Аня, Лева', 'Взрослые: Папа'] },
+    ],
+    childSwitcher: parentChildSwitcher,
+    primaryAction: { label: 'Открыть профиль ребенка', to: '/parent/child-profile' },
+    bottomNav: parentTabs,
+  },
+  'parent.child-profile.default': {
+    variant: 'profile',
+    title: 'Профиль ребенка',
+    subtitle: 'Настройка данных ребенка, привычек и целей.',
+    sections: [
+      { title: 'Профиль', items: ['Имя: Миша', 'Возраст: 8 лет', 'Класс: 2 класс'] },
+      { title: 'Привычки', items: ['Математика', 'Уроки', 'Чистка зубов'] },
+      { title: 'Цель', items: ['Копим на наушники', 'Нужно еще 1 350 рублей'] },
+    ],
+    childSwitcher: parentChildSwitcher,
+    primaryAction: { label: 'Открыть главный экран', to: '/parent/dashboard-online' },
+    bottomNav: parentTabs,
+  },
+
+  'child.home.default': {
+    variant: 'child-home',
+    title: `Привет, ${mockChildren[0].name}`,
+    subtitle: 'Сегодня мой день',
+    cards: [
+      { title: 'Экранное время', value: mockChildren[0].screenTimeLeft, description: 'Использовано 45 минут' },
+      { title: 'Настроение', value: 'Спокойный день', description: 'Отметьте его смайликом-котиком.' },
+      { title: 'Сообщение от родителей', value: 'Ты молодец', description: 'После уроков будет сюрприз.' },
+    ],
+    taskList: mockTasks,
+    bottomNav: childTabs,
+    primaryAction: { label: 'Запросить доп. время', to: '/system/app-blocked' },
+  },
+  'child.tasks.default': {
+    variant: 'child-list',
+    title: 'Мои задания',
+    subtitle: 'Список заданий на сегодня.',
+    items: mockTasks.map((task) => `${task.title} · ${task.reward}`),
+    bottomNav: childTabs,
+    primaryAction: { label: 'Открыть награды', to: '/child/rewards' },
+  },
+  'child.rewards.default': {
+    variant: 'child-list',
+    title: 'Награды',
+    subtitle: 'Медали, достижения и прогресс к цели.',
+    items: ['Медаль за дисциплину', '1200 баллов за месяц', 'Цель: наушники'],
+    bottomNav: childTabs,
+    primaryAction: { label: 'Открыть Wish List', to: '/child/wishlist' },
+  },
+  'child.wishlist.default': {
+    variant: 'child-list',
+    title: 'Wish List',
+    subtitle: 'Список желаний ребенка и накопления на цель.',
+    items: ['Наушники · накоплено 350 / 1700 рублей', 'Самокат · накоплено 420 / 900 баллов'],
+    backTo: '/child/rewards',
+    backLabel: 'Назад к наградам',
+    bottomNav: childTabs,
+    primaryAction: { label: 'Открыть друзей', to: '/child/friends' },
+  },
+  'child.friends.default': {
+    variant: 'child-list',
+    title: 'Друзья и чат',
+    subtitle: 'Безопасное общение и сравнение баллов.',
+    items: ['Аня · 580 баллов', 'Лева · 260 баллов', 'Чат с Мишей открыт'],
+    bottomNav: childTabs,
+    primaryAction: { label: 'Вернуться домой', to: '/child/home' },
+  },
+
+  'system.app-blocked': {
+    variant: 'system',
+    title: 'Приложение ограничено',
+    subtitle: 'Это приложение заблокировано родителями. Запросите дополнительное время.',
+    primaryAction: { label: 'Запросить время', to: '/parent/dashboard-online' },
+    secondaryAction: { label: 'Вернуться домой', to: '/child/home' },
+  },
+  'system.site-blocked': {
+    variant: 'system',
+    title: 'Сайт запрещен',
+    subtitle: 'Родители ограничили доступ к этому сайту. Можно отправить запрос на доступ.',
+    primaryAction: { label: 'Запросить доступ', to: '/parent/apps-list' },
+    secondaryAction: { label: 'Открыть настройки приложения', to: '/parent/app-settings-limited' },
+  },
+  'system.purchase-approval-required': {
+    variant: 'system',
+    title: 'Покупка требует разрешения',
+    subtitle: 'Для этой покупки нужно подтверждение родителя.',
+    primaryAction: { label: 'Отправить запрос', to: '/parent/profile' },
+    secondaryAction: { label: 'Вернуться в приложение', to: '/child/home' },
+  },
+  'system.stop-child-onboarding': {
+    variant: 'system',
+    isModal: true,
+    title: 'Прервать онбординг ребенка и войти как родитель?',
+    subtitle: 'Если вы продолжите, текущий онбординг будет остановлен, а вы перейдете к сценарию родителя.',
+    primaryAction: { label: 'Да, войти как родитель', to: '/auth-parent/login' },
+    secondaryAction: { label: 'Нет, продолжить онбординг', to: '/child/onboarding/accessibility' },
+    closeTo: '/child/onboarding/accessibility',
+  },
+};
+
+export const codeFieldsPreview = childCodeFields;

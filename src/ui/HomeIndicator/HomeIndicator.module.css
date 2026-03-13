@@ -1,0 +1,16 @@
+.footer {
+  height: var(--phone-home-indicator-height);
+  display: grid;
+  place-items: center;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+.indicator {
+  width: 134px;
+  height: 5px;
+  border-radius: 999px;
+  background: #111320;
+  opacity: 0.92;
+}
