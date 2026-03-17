@@ -47,6 +47,28 @@
   text-transform: uppercase;
   letter-spacing: 0.04em;
   color: var(--color-text-secondary);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.groupLabelCollapsible {
+  width: 100%;
+  padding: 8px 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  text-align: left;
+  font-family: inherit;
+}
+
+.groupLabelCollapsible:hover {
+  color: var(--color-text);
+}
+
+.groupToggle {
+  font-size: 12px;
+  opacity: 0.7;
 }
 
 .nestedLabel {

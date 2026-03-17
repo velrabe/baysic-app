@@ -7,7 +7,6 @@ import { screenContent } from '../../data/screenContent';
 import logoSign from '../../assets/logo-sign.png';
 import roleChildImage from '../../assets/role-child.png';
 import Button from '../../ui/Button/Button';
-import BottomNav from '../../ui/BottomNav/BottomNav';
 import Card from '../../ui/Card/Card';
 import ChildSwitcher from '../../ui/ChildSwitcher/ChildSwitcher';
 import Input from '../../ui/Input/Input';
@@ -434,7 +433,7 @@ function CodeScreen({ content, screenId, navigate }) {
   useEffect(() => {
     if (screenId === 'auth.parent.confirm.success' || screenId === 'auth.child.code.success') {
       const target =
-        screenId === 'auth.parent.confirm.success' ? '/parent/dashboard-online' : '/child/onboarding/accessibility';
+        screenId === 'auth.parent.confirm.success' ? '/parent/dashboard-single-child/0' : '/child/onboarding/accessibility';
       const timer = window.setTimeout(() => navigate(target), 1500);
       return () => window.clearTimeout(timer);
     }
@@ -582,9 +581,74 @@ function renderDashboard(content) {
           <TaskList items={content.taskList} />
         </Section>
       ) : null}
-      <div className={styles.bottomNavSlot}>
-        <BottomNav items={content.bottomNav} />
-      </div>
+    </div>
+  );
+}
+
+function AddChildFormScreen({ content, navigate }) {
+  const [formState, setFormState] = useState({
+    name: '',
+    age: '',
+    gender: '',
+    class: '',
+  });
+
+  const handleSubmit = () => {
+    navigate('/parent/add-child-code-active');
+  };
+
+  const isDisabled = !formState.name.trim();
+
+  return (
+    <div className={styles.screen}>
+      <Section title={content.title} subtitle={content.subtitle}>
+        <div className={styles.formGrid}>
+          <Input
+            label="Имя"
+            placeholder="Введите имя ребенка"
+            value={formState.name}
+            onChange={(e) => setFormState((s) => ({ ...s, name: e.target.value }))}
+          />
+          <Input
+            label="Возраст"
+            placeholder="Лет"
+            value={formState.age}
+            type="number"
+            inputMode="numeric"
+            onChange={(e) => setFormState((s) => ({ ...s, age: e.target.value }))}
+          />
+          <label className={styles.selectLabel}>
+            <span className={styles.label}>Пол</span>
+            <select
+              className={styles.select}
+              value={formState.gender}
+              onChange={(e) => setFormState((s) => ({ ...s, gender: e.target.value }))}
+            >
+              <option value="">Не указан</option>
+              <option value="male">Мальчик</option>
+              <option value="female">Девочка</option>
+            </select>
+          </label>
+          <label className={styles.selectLabel}>
+            <span className={styles.label}>Класс</span>
+            <select
+              className={styles.select}
+              value={formState.class}
+              onChange={(e) => setFormState((s) => ({ ...s, class: e.target.value }))}
+            >
+              <option value="">Не школьник</option>
+              {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map((n) => (
+                <option key={n} value={String(n)}>
+                  {n} класс
+                </option>
+              ))}
+            </select>
+          </label>
+        </div>
+      </Section>
+      <Button onClick={handleSubmit} disabled={isDisabled}>
+        Добавить ребенка
+      </Button>
     </div>
   );
 }
@@ -599,23 +663,52 @@ function renderAddChild(content) {
           <p className={styles.cardDescription}>
             {content.code
               ? 'Код можно показать ребенку для авторизации в отдельном сценарии.'
-              : 'После нажатия откроется отдельный экран с активным кодом.'}
+              : 'Покажите код ребенку. Он действует ограниченное время.'}
           </p>
         </Card>
       </Section>
       <Button to={content.primaryAction.to}>{content.primaryAction.label}</Button>
-      <Button to={content.secondaryAction.to} variant="secondary">
-        {content.secondaryAction.label}
-      </Button>
+      {content.secondaryAction ? (
+        <Button to={content.secondaryAction.to} variant="secondary">
+          {content.secondaryAction.label}
+        </Button>
+      ) : null}
     </div>
+  );
+}
+
+function Breadcrumb({ items = [] }) {
+  if (!items.length) return null;
+  return (
+    <nav className={styles.breadcrumb} aria-label="Навигация">
+      {items.map((item, i) => (
+        <span key={item.label}>
+          {i > 0 && <span className={styles.breadcrumbSep}> › </span>}
+          {item.path ? (
+            <Link to={item.path} className={styles.breadcrumbLink}>
+              {item.label}
+            </Link>
+          ) : (
+            <span className={styles.breadcrumbCurrent}>{item.label}</span>
+          )}
+        </span>
+      ))}
+    </nav>
   );
 }
 
 function renderApps(content) {
   return (
     <div className={styles.screen}>
+      {content.backTo ? <BackLink to={content.backTo} label={content.backLabel || 'Назад'} /> : null}
+      {content.breadcrumb?.length ? <Breadcrumb items={content.breadcrumb} /> : null}
       <Section title={content.title} subtitle={content.subtitle}>
-        {content.childSwitcher ? <ChildSwitcher items={content.childSwitcher} /> : null}
+        {content.childSwitcher ? (
+          <div className={styles.childContext}>
+            <span className={styles.childContextLabel}>{content.childContextLabel || 'Ребенок:'}</span>
+            <ChildSwitcher items={content.childSwitcher} />
+          </div>
+        ) : null}
       </Section>
       {content.apps ? (
         <div className={styles.list}>
@@ -650,9 +743,6 @@ function renderApps(content) {
           {content.secondaryAction.label}
         </Button>
       ) : null}
-      <div className={styles.bottomNavSlot}>
-        <BottomNav items={content.bottomNav} />
-      </div>
     </div>
   );
 }
@@ -671,9 +761,6 @@ function renderProfile(content) {
         ))}
       </div>
       <Button to={content.primaryAction.to}>{content.primaryAction.label}</Button>
-      <div className={styles.bottomNavSlot}>
-        <BottomNav items={content.bottomNav} />
-      </div>
     </div>
   );
 }
@@ -688,9 +775,6 @@ function renderChildHome(content) {
         <TaskList items={content.taskList} />
       </Section>
       <Button to={content.primaryAction.to}>{content.primaryAction.label}</Button>
-      <div className={styles.bottomNavSlot}>
-        <BottomNav items={content.bottomNav} />
-      </div>
     </div>
   );
 }
@@ -702,9 +786,6 @@ function renderChildList(content) {
       <Section title={content.title} subtitle={content.subtitle} />
       <TaskList items={content.items} />
       <Button to={content.primaryAction.to}>{content.primaryAction.label}</Button>
-      <div className={styles.bottomNavSlot}>
-        <BottomNav items={content.bottomNav} />
-      </div>
     </div>
   );
 }
@@ -712,8 +793,15 @@ function renderChildList(content) {
 function renderCollection(content) {
   return (
     <div className={styles.screen}>
+      {content.backTo ? <BackLink to={content.backTo} label={content.backLabel || 'Назад'} /> : null}
+      {content.breadcrumb?.length ? <Breadcrumb items={content.breadcrumb} /> : null}
       <Section title={content.title} subtitle={content.subtitle}>
-        {content.childSwitcher ? <ChildSwitcher items={content.childSwitcher} /> : null}
+        {content.childSwitcher ? (
+          <div className={styles.childContext}>
+            <span className={styles.childContextLabel}>{content.childContextLabel || 'Ребенок:'}</span>
+            <ChildSwitcher items={content.childSwitcher} />
+          </div>
+        ) : null}
       </Section>
       {content.leadCard ? (
         <Card muted={content.leadCard.muted !== false} accent={content.leadCard.accent}>
@@ -736,11 +824,6 @@ function renderCollection(content) {
         <Button to={content.secondaryAction.to} variant="secondary">
           {content.secondaryAction.label}
         </Button>
-      ) : null}
-      {content.bottomNav ? (
-        <div className={styles.bottomNavSlot}>
-          <BottomNav items={content.bottomNav} />
-        </div>
       ) : null}
     </div>
   );
@@ -857,13 +940,16 @@ export default function StaticScreen({ screenId }) {
   const navigate = useNavigate();
 
   return (
-    <PhoneFrame>
+    <PhoneFrame bottomNav={content.bottomNav}>
       {content.variant === 'splash' && renderSplash(content)}
       {content.variant === 'role-select' && renderRoleSelect(content)}
       {content.variant === 'auth-form' && <AuthFormScreen content={content} screenId={screenId} navigate={navigate} />}
       {content.variant === 'code' && <CodeScreen content={content} screenId={screenId} navigate={navigate} />}
       {content.variant === 'dashboard' && renderDashboard(content)}
-      {content.variant === 'add-child' && renderAddChild(content)}
+      {content.variant === 'add-child' && screenId === 'parent.add-child.intro' && (
+        <AddChildFormScreen content={content} navigate={navigate} />
+      )}
+      {content.variant === 'add-child' && screenId !== 'parent.add-child.intro' && renderAddChild(content)}
       {content.variant === 'apps' && renderApps(content)}
       {content.variant === 'profile' && renderProfile(content)}
       {content.variant === 'child-home' && renderChildHome(content)}

@@ -46,16 +46,28 @@ import DashboardLimitExceeded from '../screens/parent/dashboard/DashboardLimitEx
 import AddChildIntro from '../screens/parent/add-child/AddChildIntro';
 import AddChildCodeActive from '../screens/parent/add-child/AddChildCodeActive';
 import AddChildCodeExpired from '../screens/parent/add-child/AddChildCodeExpired';
-import TaskList from '../screens/parent/tasks/TaskList';
+import TaskListNoChild from '../screens/parent/tasks/TaskListNoChild';
+import TaskListSingleChild from '../screens/parent/tasks/TaskListSingleChild';
+import TaskListMulti from '../screens/parent/tasks/TaskListMulti';
+import Schedule from '../screens/parent/tasks/Schedule';
 import TaskCreate from '../screens/parent/tasks/TaskCreate';
+import TaskCreateMulti from '../screens/parent/tasks/TaskCreateMulti';
 import TaskEdit from '../screens/parent/tasks/TaskEdit';
 import TaskDeleteConfirm from '../screens/parent/tasks/TaskDeleteConfirm';
 import GeoInZone from '../screens/parent/geo/GeoInZone';
 import GeoOutOfZone from '../screens/parent/geo/GeoOutOfZone';
 import AppsList from '../screens/parent/apps/AppsList';
+import AppsListSearch from '../screens/parent/apps/AppsListSearch';
+import AppsListAllowed from '../screens/parent/apps/AppsListAllowed';
+import AppsListLimited from '../screens/parent/apps/AppsListLimited';
+import AppsListBlocked from '../screens/parent/apps/AppsListBlocked';
+import AppsListNew from '../screens/parent/apps/AppsListNew';
 import AppSettingsLimited from '../screens/parent/apps/AppSettingsLimited';
 import AppSettingsBlocked from '../screens/parent/apps/AppSettingsBlocked';
+import AppsSettings from '../screens/parent/apps/AppsSettings';
 import ContentFilterDefault from '../screens/parent/content/ContentFilterDefault';
+import ContentSites from '../screens/parent/content/ContentSites';
+import ContentPurchases from '../screens/parent/content/ContentPurchases';
 import ParentProfile from '../screens/parent/parent-profile/ParentProfile';
 import ChildProfile from '../screens/parent/child-profile/ChildProfile';
 import ChildHome from '../screens/child/ChildHome';
@@ -258,12 +270,28 @@ export const routesConfig = [
     component: AddChildCodeExpired,
   },
   {
-    ...screenMeta['parent.tasks.list'],
-    component: TaskList,
+    ...screenMeta['parent.tasks.no-child'],
+    component: TaskListNoChild,
+  },
+  {
+    ...screenMeta['parent.tasks.single-child'],
+    component: TaskListSingleChild,
+  },
+  {
+    ...screenMeta['parent.tasks.multi'],
+    component: TaskListMulti,
+  },
+  {
+    ...screenMeta['parent.schedule.default'],
+    component: Schedule,
   },
   {
     ...screenMeta['parent.tasks.create'],
     component: TaskCreate,
+  },
+  {
+    ...screenMeta['parent.tasks.create-multi'],
+    component: TaskCreateMulti,
   },
   {
     ...screenMeta['parent.tasks.edit'],
@@ -286,6 +314,26 @@ export const routesConfig = [
     component: AppsList,
   },
   {
+    ...screenMeta['parent.apps.list.search'],
+    component: AppsListSearch,
+  },
+  {
+    ...screenMeta['parent.apps.list.status-allowed'],
+    component: AppsListAllowed,
+  },
+  {
+    ...screenMeta['parent.apps.list.status-limited'],
+    component: AppsListLimited,
+  },
+  {
+    ...screenMeta['parent.apps.list.status-blocked'],
+    component: AppsListBlocked,
+  },
+  {
+    ...screenMeta['parent.apps.list.new'],
+    component: AppsListNew,
+  },
+  {
     ...screenMeta['parent.apps.settings.limited'],
     component: AppSettingsLimited,
   },
@@ -294,8 +342,20 @@ export const routesConfig = [
     component: AppSettingsBlocked,
   },
   {
+    ...screenMeta['parent.apps.settings.general'],
+    component: AppsSettings,
+  },
+  {
     ...screenMeta['parent.content.filter.default'],
     component: ContentFilterDefault,
+  },
+  {
+    ...screenMeta['parent.content.sites'],
+    component: ContentSites,
+  },
+  {
+    ...screenMeta['parent.content.purchases'],
+    component: ContentPurchases,
   },
   {
     ...screenMeta['parent.profile.default'],

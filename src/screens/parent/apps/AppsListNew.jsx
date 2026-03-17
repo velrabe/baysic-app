@@ -1,3 +1,3 @@
 import { createStaticScreen } from '../../shared/StaticScreen';
 
-export default createStaticScreen('parent.tasks.list');
+export default createStaticScreen('parent.apps.list.new');

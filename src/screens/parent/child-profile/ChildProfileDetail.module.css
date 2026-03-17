@@ -1,0 +1,648 @@
+.screen {
+  min-height: 100%;
+  padding: 0 20px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.screenStandalone {
+  padding: 0;
+  gap: 24px;
+}
+
+.screenBody {
+  padding: 0 16px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.navBar {
+  display: grid;
+  grid-template-columns: 70px 1fr 70px;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 0;
+}
+
+.backBtn {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--color-primary-strong);
+  text-decoration: none;
+}
+
+.navTitle {
+  font-size: 18px;
+  font-weight: 600;
+  margin: 0;
+  text-align: center;
+}
+
+.navSpacer {
+  width: 70px;
+  visibility: hidden;
+}
+
+.header {
+  display: grid;
+  grid-template-columns: 64px 1fr auto;
+  align-items: center;
+  gap: 16px;
+}
+
+.editBtn {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: rgba(146, 121, 232, 0.12);
+  color: var(--color-primary-strong);
+  display: grid;
+  place-items: center;
+  text-decoration: none;
+  flex-shrink: 0;
+  align-self: start;
+}
+
+.editBtn:hover {
+  background: rgba(146, 121, 232, 0.2);
+}
+
+.avatarLarge {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--color-primary) 0%, #7b63e0 100%);
+  color: #fff;
+  font-size: 24px;
+  font-weight: 700;
+  display: grid;
+  place-items: center;
+}
+
+.headerInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.childName {
+  font-size: 22px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.childMeta {
+  font-size: 14px;
+  color: var(--color-text-secondary);
+  margin: 0;
+}
+
+.childMood {
+  font-size: 13px;
+  color: var(--color-text-tertiary);
+  margin: 0;
+}
+
+.block {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.blockTitle {
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.screenTimeBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.actionsGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.actionBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-primary-strong);
+  background: rgba(146, 121, 232, 0.12);
+  border-radius: 12px;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.actionBtnIcon {
+  flex-shrink: 0;
+}
+
+.statRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.progressTrack {
+  height: 8px;
+  border-radius: 999px;
+  background: rgba(146, 121, 232, 0.2);
+  overflow: hidden;
+}
+
+.progressFill {
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--color-primary) 0%, #7b63e0 100%);
+}
+
+.analytics {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.analyticsCategoriesCard {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.analyticsTopAppsCard {
+  padding: 12px;
+  background: var(--color-surface-muted);
+  border-radius: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.analyticsTopAppsScrollWrap {
+  position: relative;
+  overflow: hidden;
+}
+
+.analyticsTopAppsList {
+  display: flex;
+  flex-direction: row;
+  gap: 4px;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.analyticsTopAppsList::-webkit-scrollbar {
+  display: none;
+}
+
+.analyticsTopAppsOverlay {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 40px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.analyticsTopAppsOverlayVisible {
+  opacity: 1;
+}
+
+.analyticsTopAppsOverlayLeft {
+  left: 0;
+  background: linear-gradient(to right, var(--color-surface-muted) 0%, transparent 100%);
+}
+
+.analyticsTopAppsOverlayRight {
+  right: 0;
+  background: linear-gradient(to left, var(--color-surface-muted) 0%, transparent 100%);
+}
+
+.analyticsSectionTitle {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.analyticsProgressBar {
+  display: flex;
+  height: 10px;
+  border-radius: 999px;
+  overflow: hidden;
+  background: rgba(0, 0, 0, 0.08);
+}
+
+.analyticsProgressSegment {
+  height: 100%;
+  min-width: 2px;
+}
+
+.analyticsProgressSegment:first-child {
+  border-radius: 999px 0 0 999px;
+}
+
+.analyticsProgressSegment:last-child {
+  border-radius: 0 999px 999px 0;
+}
+
+.analyticsLegend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  padding-top: 4px;
+}
+
+.analyticsLegendItem {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 8px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+  background: rgba(0, 0, 0, 0.04);
+  border-radius: 4px;
+}
+
+.analyticsLegendSquare {
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+
+.analyticsTopAppItem {
+  flex-shrink: 0;
+}
+
+.analyticsTopAppPill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  font-size: 13px;
+  font-weight: 500;
+  background: #fff;
+  border-radius: 10px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.analyticsTopAppIcon {
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  flex-shrink: 0;
+  object-fit: contain;
+}
+
+.analyticsTopAppContent {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.analyticsTopAppName {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.analyticsTopAppMeta {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+}
+
+.blockHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.moreLink {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-primary-strong);
+  text-decoration: none;
+}
+
+.moreLink:hover {
+  text-decoration: underline;
+}
+
+.geoPreview {
+  position: relative;
+  aspect-ratio: 2 / 1;
+  border-radius: 12px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+.geoMapBg {
+  position: absolute;
+  inset: 0;
+  background: url('https://tile.openstreetmap.org/10/536/320.png') center/cover;
+  z-index: 0;
+}
+
+.geoPlaceholder {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #e0e4f0 0%, #d4d9e8 100%);
+}
+
+.geoPin {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+.geoAvatarCenter {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  overflow: hidden;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
+  border: 3px solid #fff;
+}
+
+.geoPinTail {
+  width: 0;
+  height: 0;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-top: 12px solid #fff;
+  margin-top: -2px;
+  filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.25));
+}
+
+.geoLinkOverlay {
+  position: relative;
+  z-index: 1;
+  padding: 8px 16px;
+  background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-radius: 999px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.12);
+}
+
+.geoAvatarImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.geoAvatarLetter {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(135deg, var(--color-primary) 0%, #7b63e0 100%);
+  color: #fff;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.geoAvatar {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--color-primary) 0%, #7b63e0 100%);
+  color: #fff;
+  font-size: 16px;
+  font-weight: 700;
+  display: grid;
+  place-items: center;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.geoLink {
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--color-text-secondary);
+  text-decoration: none;
+}
+
+.geoLinkOverlay:hover .geoLink {
+  text-decoration: underline;
+}
+
+.balanceGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  align-items: stretch;
+}
+
+.balanceColumn {
+  padding: 16px;
+  background: var(--color-surface-muted);
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.balanceValueRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.balanceIcon {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+}
+
+.balanceLabel {
+  font-size: 12px;
+  color: var(--color-text-secondary);
+}
+
+.balanceManageBtn {
+  grid-column: 1 / -1;
+  padding: 12px 16px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-primary-strong);
+  background: rgba(146, 121, 232, 0.12);
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.balanceManageBtn:hover {
+  background: rgba(146, 121, 232, 0.2);
+}
+
+.balanceBlock {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px;
+  background: var(--color-surface-muted);
+  border-radius: 16px;
+}
+
+.balanceValue {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--color-primary-strong);
+}
+
+.spendBtn {
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-primary-strong);
+  background: rgba(146, 121, 232, 0.12);
+  border-radius: 10px;
+  text-decoration: none;
+}
+
+.tabs {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.tabSection {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.tabLabel {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  margin: 0;
+}
+
+.tasksBlockTitle {
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.tasksDateLink {
+  border-bottom: 1px dashed var(--color-primary-strong);
+  text-decoration: none;
+  color: inherit;
+}
+
+.addTaskLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-primary-strong);
+  text-decoration: none;
+}
+
+.addTaskLink:hover {
+  text-decoration: underline;
+}
+
+.addTaskLink svg {
+  flex-shrink: 0;
+}
+
+.taskCardListWrap {
+  position: relative;
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+.taskCardList {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.taskCardListWrap.taskCardListWrapOverflow .taskCardList {
+  max-height: 304px;
+  overflow: hidden;
+}
+
+.taskCardListOverlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 34px;
+  background: linear-gradient(to top, #fefefe 0%, #ffffff00 100%);
+  pointer-events: none;
+}
+
+.taskCardBlockBody {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.taskCardAllLink {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 12px 16px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-primary-strong);
+  background: rgba(146, 121, 232, 0.12);
+  border-radius: 14px;
+  text-decoration: none;
+}
+
+.taskCardAllLink:hover {
+  background: rgba(146, 121, 232, 0.2);
+}
+
+.taskItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 12px;
+  background: var(--color-surface-muted);
+  border-radius: 12px;
+}
+
+.taskReward {
+  font-size: 13px;
+  color: var(--color-primary-strong);
+}

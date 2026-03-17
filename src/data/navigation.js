@@ -138,12 +138,26 @@ export const navigation = [
     label: 'Родитель',
     items: [
       {
-        label: 'Дом',
+        label: 'Дом-один ребенок',
+        items: [
+          { id: 'parent.dashboard.single-child.4', title: 'Один ребенок 4 задачи', path: '/parent/dashboard-single-child/0?tasks=4' },
+          { id: 'parent.dashboard.single-child.8', title: 'Один ребенок 8 задач', path: '/parent/dashboard-single-child/0?tasks=8' },
+        ],
+      },
+      {
+        label: 'Дом-несколько детей',
+        items: [
+          { id: 'parent.dashboard.online.main', title: 'Дашборд', path: '/parent/dashboard-online' },
+          { id: 'parent.dashboard.online.blocked', title: 'Несколько детей / блок', path: '/parent/dashboard-online?blocked=0' },
+          { id: 'parent.child-profile.0', title: 'Профиль Миши', path: '/parent/child-profile/0' },
+          { id: 'parent.child-profile.1', title: 'Профиль Ани', path: '/parent/child-profile/1' },
+          { id: 'parent.child-profile.2', title: 'Профиль Лёвы', path: '/parent/child-profile/2' },
+        ],
+      },
+      {
+        label: 'Дом-нет ребенка',
         items: [
           { id: 'parent.dashboard.no-child', title: 'Нет ребенка', path: '/parent/dashboard-no-child' },
-          { id: 'parent.dashboard.online', title: 'Ребенок онлайн', path: '/parent/dashboard-online' },
-          { id: 'parent.dashboard.offline', title: 'Ребенок офлайн', path: '/parent/dashboard-offline' },
-          { id: 'parent.dashboard.limit-exceeded', title: 'Лимит превышен', path: '/parent/dashboard-limit-exceeded' },
         ],
       },
       {
@@ -157,9 +171,23 @@ export const navigation = [
       {
         label: 'Задания',
         items: [
-          { id: 'parent.tasks.list', title: 'Список задач', path: '/parent/tasks' },
-          { id: 'parent.tasks.create', title: 'Создание задачи', path: '/parent/tasks-create' },
+          { id: 'parent.tasks.no-child', title: 'Нет ребенка', path: '/parent/tasks-no-child' },
+          { id: 'parent.tasks.single-child', title: 'Один ребенок', path: '/parent/tasks-single-child' },
+          { id: 'parent.tasks.multi', title: 'Несколько детей', path: '/parent/tasks-multi' },
+        ],
+      },
+      {
+        label: 'Создание задачи',
+        items: [
+          { id: 'parent.tasks.create', title: 'Один ребенок', path: '/parent/tasks-create' },
+          { id: 'parent.tasks.create-multi', title: 'Несколько детей', path: '/parent/tasks-create-multi' },
+        ],
+      },
+      {
+        label: 'Редактирование и расписание',
+        items: [
           { id: 'parent.tasks.edit', title: 'Редактирование задачи', path: '/parent/tasks-edit' },
+          { id: 'parent.schedule.default', title: 'Расписание', path: '/parent/schedule' },
           { id: 'parent.tasks.delete-confirm', title: 'Подтверждение удаления', path: '/parent/tasks-delete-confirm' },
         ],
       },
@@ -171,17 +199,20 @@ export const navigation = [
         ],
       },
       {
-        label: 'Приложения',
-        items: [
-          { id: 'parent.apps.list', title: 'Список приложений', path: '/parent/apps-list' },
-          { id: 'parent.apps.settings.limited', title: 'Ограниченное приложение', path: '/parent/app-settings-limited' },
-          { id: 'parent.apps.settings.blocked', title: 'Заблокированное приложение', path: '/parent/app-settings-blocked' },
-        ],
-      },
-      {
         label: 'Контент',
         items: [
-          { id: 'parent.content.filter.default', title: 'Контент-фильтр', path: '/parent/content-filter' },
+          { id: 'parent.apps.list', title: 'Список приложений', path: '/parent/apps-list' },
+          { id: 'parent.apps.list.search', title: 'Список приложений / поиск по названию', path: '/parent/apps-list-search' },
+          { id: 'parent.apps.list.status-allowed', title: 'Список приложений / статус: Разрешенные', path: '/parent/apps-list-allowed' },
+          { id: 'parent.apps.list.status-limited', title: 'Список приложений / статус: Ограниченные', path: '/parent/apps-list-limited' },
+          { id: 'parent.apps.list.status-blocked', title: 'Список приложений / статус: Заблокированные', path: '/parent/apps-list-blocked' },
+          { id: 'parent.apps.list.new', title: 'Список приложений / новые приложения', path: '/parent/apps-list-new' },
+          { id: 'parent.apps.settings.limited', title: 'Приложение: Ограничено', path: '/parent/app-settings-limited' },
+          { id: 'parent.apps.settings.blocked', title: 'Приложение: Заблокировано', path: '/parent/app-settings-blocked' },
+          { id: 'parent.apps.settings.general', title: 'Настройка приложений', path: '/parent/apps-settings' },
+          { id: 'parent.content.filter.default', title: 'Настройка контента', path: '/parent/content-filter' },
+          { id: 'parent.content.sites', title: 'Списки сайтов', path: '/parent/content-sites' },
+          { id: 'parent.content.purchases', title: 'Покупки', path: '/parent/content-purchases' },
         ],
       },
       {
@@ -197,14 +228,23 @@ export const navigation = [
     label: 'Ребенок',
     items: [
       {
-        label: 'Приложение ребенка',
+        label: 'Главная',
+        items: [{ id: 'child.home.default', title: 'Главный экран', path: '/child/home' }],
+      },
+      {
+        label: 'Задания',
+        items: [{ id: 'child.tasks.default', title: 'Задания', path: '/child/tasks' }],
+      },
+      {
+        label: 'Награды',
         items: [
-          { id: 'child.home.default', title: 'Главный экран', path: '/child/home' },
-          { id: 'child.tasks.default', title: 'Задания', path: '/child/tasks' },
           { id: 'child.rewards.default', title: 'Награды', path: '/child/rewards' },
           { id: 'child.wishlist.default', title: 'Wish List', path: '/child/wishlist' },
-          { id: 'child.friends.default', title: 'Друзья', path: '/child/friends' },
         ],
+      },
+      {
+        label: 'Друзья',
+        items: [{ id: 'child.friends.default', title: 'Друзья', path: '/child/friends' }],
       },
     ],
   },

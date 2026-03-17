@@ -45,7 +45,7 @@ function ScreenGroup({ item, isOpen, onToggle }) {
   );
 }
 
-function NavigationNode({ item, currentPath, level = 0, openGroupKey, onGroupToggle }) {
+function NavigationNode({ item, currentPath, level = 0, openGroupKey, onGroupToggle, collapsedSections = new Set(), onSectionToggle = () => {} }) {
   if (item.items && item.items.every((child) => child.path)) {
     const mainItem = item.items[0];
     const groupKey = mainItem.path;
@@ -61,21 +61,42 @@ function NavigationNode({ item, currentPath, level = 0, openGroupKey, onGroupTog
   }
 
   if (item.items) {
+    const isTopLevel = level === 0;
+    const sectionKey = `section-${item.label}`;
+    const isCollapsed = isTopLevel && collapsedSections.has(sectionKey);
+
+    const LabelTag = isTopLevel ? 'button' : 'div';
     return (
       <div className={styles.group}>
-        <div className={`${styles.groupLabel} ${level > 0 ? styles.nestedLabel : ''}`}>{item.label}</div>
-        <div className={styles.groupItems}>
-          {item.items.map((child) => (
-            <NavigationNode
-              key={child.id || child.label}
-              item={child}
-              currentPath={currentPath}
-              level={level + 1}
-              openGroupKey={openGroupKey}
-              onGroupToggle={onGroupToggle}
-            />
-          ))}
-        </div>
+        <LabelTag
+          type={isTopLevel ? 'button' : undefined}
+          className={`${styles.groupLabel} ${level > 0 ? styles.nestedLabel : ''} ${isTopLevel ? styles.groupLabelCollapsible : ''}`}
+          onClick={isTopLevel ? () => onSectionToggle(sectionKey) : undefined}
+          aria-expanded={isTopLevel ? !isCollapsed : undefined}
+        >
+          {isTopLevel && (
+            <span className={styles.groupToggle} aria-hidden="true">
+              {isCollapsed ? '▸' : '▾'}
+            </span>
+          )}
+          {item.label}
+        </LabelTag>
+        {!isCollapsed && (
+          <div className={styles.groupItems}>
+            {item.items.map((child) => (
+              <NavigationNode
+                key={child.id || child.label}
+                item={child}
+                currentPath={currentPath}
+                level={level + 1}
+                openGroupKey={openGroupKey}
+                onGroupToggle={onGroupToggle}
+                collapsedSections={collapsedSections}
+                onSectionToggle={onSectionToggle}
+              />
+            ))}
+          </div>
+        )}
       </div>
     );
   }
@@ -94,6 +115,21 @@ export default function Sidebar() {
   const location = useLocation();
   const sections = useMemo(() => navigation, []);
   const [openGroupKey, setOpenGroupKey] = useState(null);
+  const [collapsedSections, setCollapsedSections] = useState(() =>
+    new Set(navigation.map((s) => `section-${s.label}`))
+  );
+
+  const handleSectionToggle = (sectionKey) => {
+    setCollapsedSections((prev) => {
+      const next = new Set(prev);
+      if (next.has(sectionKey)) {
+        next.delete(sectionKey);
+      } else {
+        next.add(sectionKey);
+      }
+      return next;
+    });
+  };
 
   useEffect(() => {
     const findGroupKeyForPath = (items, path) => {
@@ -134,8 +170,11 @@ export default function Sidebar() {
             key={section.label}
             item={section}
             currentPath={location.pathname}
+            level={0}
             openGroupKey={openGroupKey}
             onGroupToggle={handleGroupToggle}
+            collapsedSections={collapsedSections}
+            onSectionToggle={handleSectionToggle}
           />
         ))}
       </div>

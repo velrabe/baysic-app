@@ -1,0 +1,193 @@
+.screen {
+  min-height: 100%;
+  padding: 0 20px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.navBar {
+  display: grid;
+  grid-template-columns: 70px 1fr 70px;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 0;
+}
+
+.backBtn {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--color-primary-strong);
+  text-decoration: none;
+}
+
+.navTitle {
+  font-size: 18px;
+  font-weight: 600;
+  margin: 0;
+  text-align: center;
+}
+
+.navSpacer {
+  width: 70px;
+  visibility: hidden;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--color-primary) 0%, #7b63e0 100%);
+  color: #fff;
+  font-size: 20px;
+  font-weight: 700;
+  display: grid;
+  place-items: center;
+}
+
+.childName {
+  font-size: 20px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.block {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.blockTitle {
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.periodTabs {
+  display: flex;
+  gap: 4px;
+  padding: 4px;
+  background: var(--color-surface-muted);
+  border-radius: 12px;
+}
+
+.periodTab {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  background: transparent;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+}
+
+.periodTabActive {
+  background: #fff;
+  color: var(--color-text);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.totalBlock {
+  padding: 16px;
+  background: var(--color-surface-muted);
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.totalLabel {
+  font-size: 12px;
+  color: var(--color-text-secondary);
+}
+
+.totalValue {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--color-primary-strong);
+}
+
+.timelineBar {
+  display: flex;
+  height: 12px;
+  border-radius: 6px;
+  overflow: hidden;
+  background: var(--color-surface-muted);
+}
+
+.timelineSegment {
+  min-width: 2px;
+  transition: width 0.2s ease;
+}
+
+.appsList {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.appsLabel {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  margin: 0;
+}
+
+.appsTable {
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.appRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+}
+
+.appRowBordered {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+.appIcon {
+  width: 16px;
+  height: 16px;
+  border-radius: 4px;
+  background: var(--color-surface-muted);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  flex-shrink: 0;
+}
+
+.appName {
+  flex: 1;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.appTimeWrap {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.appTime {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+}
+
+.appDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}

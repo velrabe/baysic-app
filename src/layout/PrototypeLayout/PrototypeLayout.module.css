@@ -1,13 +1,17 @@
 .page {
   min-height: 100vh;
-  display: grid;
-  grid-template-columns: 320px minmax(0, 1fr) 300px;
+  display: flex;
   gap: 24px;
   padding: 24px;
   overflow: hidden;
 }
 
+.page > :first-child {
+  flex-shrink: 0;
+}
+
 .stage {
+  flex: 1;
   min-width: 0;
   min-height: calc(100vh - 48px);
   display: flex;
@@ -22,21 +26,18 @@
   justify-content: center;
 }
 
-@media (max-width: 1360px) {
-  .page {
-    grid-template-columns: 280px minmax(0, 1fr);
-    overflow: auto;
-  }
-
-  .page > :last-child {
-    grid-column: 1 / -1;
-  }
+.page > :last-child {
+  flex-shrink: 0;
 }
 
 @media (max-width: 1024px) {
   .page {
-    grid-template-columns: 1fr;
+    flex-direction: column;
     overflow: auto;
+  }
+
+  .page > :last-child {
+    width: 100%;
   }
 
   .stage {
