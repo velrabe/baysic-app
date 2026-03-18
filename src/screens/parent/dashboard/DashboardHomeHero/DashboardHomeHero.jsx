@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { Link } from 'react-router-dom';
 import styles from './DashboardHomeHero.module.css';
 
 const base = import.meta.env.BASE_URL || '/';
@@ -6,11 +7,18 @@ const base = import.meta.env.BASE_URL || '/';
 const SCROLL_THRESHOLD = 4;
 const COLLAPSED_HEIGHT = 72;
 
+const PEN_ICON = (
+  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 512 512">
+    <path fill="currentColor" d="m362.7 19.3l-48.4 48.4l130 130l48.4-48.4c25-25 25-65.5 0-90.5l-39.4-39.5c-25-25-65.5-25-90.5 0zm-71 71L58.6 323.5c-10.4 10.4-18 23.3-22.2 37.4L1 481.2c-2.5 8.5-.2 17.6 6 23.8s15.3 8.5 23.7 6.1L151 475.7c14.1-4.2 27-11.8 37.4-22.2l233.3-233.2z"/>
+  </svg>
+);
+
 const LOCK_ICON = (
   <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
     <path fill="currentColor" d="M12 2a5 5 0 0 1 5 5v3a3 3 0 0 1 3 3v6a3 3 0 0 1-3 3H7a3 3 0 0 1-3-3v-6a3 3 0 0 1 3-3V7a5 5 0 0 1 5-5m0 12a2 2 0 0 0-1.995 1.85L10 16a2 2 0 1 0 2-2m0-10a3 3 0 0 0-3 3v3h6V7a3 3 0 0 0-3-3"/>
   </svg>
 );
+
 const ADD_TIME_ICON = (
   <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
     <path fill="currentColor" d="M10.75 8c-.41 0-.75.34-.75.75v4.69c0 .35.18.67.47.85l3.64 2.24a.713.713 0 1 0 .74-1.22L11.5 13.3V8.75c0-.41-.34-.75-.75-.75"/>
@@ -19,11 +27,11 @@ const ADD_TIME_ICON = (
   </svg>
 );
 
-export default function DashboardHomeHero({ child, tasksDone, tasksTotal, onBlockClick, onAddTimeClick }) {
+export default function DashboardHomeHero({ child, tasksDone, tasksTotal, onBlockClick, onAddTimeClick, onUnblockClick, editProfileTo }) {
   const [collapsed, setCollapsed] = useState(false);
   const heroRef = useRef(null);
   const progressSectionRef = useRef(null);
-  const progressContentRef = useRef(null);
+  const hasTime = (child.screenTimeLeftMinutes ?? 0) > 0;
 
   useEffect(() => {
     const scrollEl = heroRef.current?.parentElement?.parentElement;
@@ -72,29 +80,35 @@ export default function DashboardHomeHero({ child, tasksDone, tasksTotal, onBloc
                 />
               </div>
             </div>
+            <div className={styles.heroMenuWrap}>
+              {editProfileTo && (
+                <Link to={editProfileTo} className={styles.heroEditBtn} aria-label="Редактировать">
+                  {PEN_ICON}
+                </Link>
+              )}
+            </div>
           </div>
         </div>
 
         {!collapsed && (
-          <div ref={progressContentRef} className={styles.actionButtons}>
-            <button
-              type="button"
-              className={styles.actionBtn}
-              onClick={onBlockClick}
-              aria-label="Заблокировать"
-            >
-              {LOCK_ICON}
-              Заблокировать
-            </button>
-            <button
-              type="button"
-              className={styles.actionBtn}
-              onClick={onAddTimeClick}
-              aria-label="Добавить время"
-            >
-              {ADD_TIME_ICON}
-              Добавить время
-            </button>
+          <div className={styles.actionButtons}>
+            {hasTime ? (
+              <>
+                <button type="button" className={styles.actionBtn} onClick={onBlockClick} aria-label="Заблокировать">
+                  {LOCK_ICON}
+                  Заблокировать
+                </button>
+                <button type="button" className={styles.actionBtn} onClick={onAddTimeClick} aria-label="Добавить время">
+                  {ADD_TIME_ICON}
+                  Добавить время
+                </button>
+              </>
+            ) : (
+              <button type="button" className={styles.actionBtn} onClick={onUnblockClick} aria-label="Разблокировать">
+                {ADD_TIME_ICON}
+                Разблокировать
+              </button>
+            )}
           </div>
         )}
       </div>

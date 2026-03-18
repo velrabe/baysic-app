@@ -118,6 +118,7 @@ export default function TaskListMulti() {
                   key={t.id || t.title}
                   task={t}
                   executorDisplay={!t.isAdultTask ? child.name : undefined}
+                  executorAvatar={!t.isAdultTask ? child : undefined}
                 />
               ))
             ) : (

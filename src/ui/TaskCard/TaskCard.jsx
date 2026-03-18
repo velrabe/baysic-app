@@ -1,3 +1,4 @@
+import diamondIcon from '../../assets/diamond.png';
 import styles from './TaskCard.module.css';
 
 const base = import.meta.env.BASE_URL || '/';
@@ -8,7 +9,7 @@ const CAT_ICONS = {
   parent: `${base}assets/cat/parent.png`,
 };
 const COIN_ICON = `${base}assets/coin.png`;
-const DIAMOND_ICON = `${base}assets/diamond.png`;
+const DIAMOND_ICON = diamondIcon;
 
 function formatReward(reward) {
   if (!reward || reward === '—') return null;
@@ -20,7 +21,7 @@ function getRewardIcon(reward) {
   return /балл/i.test(reward) ? DIAMOND_ICON : COIN_ICON;
 }
 
-export default function TaskCard({ task, executorDisplay }) {
+export default function TaskCard({ task, executorDisplay, executorAvatar }) {
   const isDone = task.status === 'done';
   const isAdultPlanned = task.isAdultTask && task.status === 'planned' && task.executorName === 'Я';
   const iconSrc = task.isAdultTask
@@ -28,7 +29,8 @@ export default function TaskCard({ task, executorDisplay }) {
     : (task.category && CAT_ICONS[task.category] ? CAT_ICONS[task.category] : CAT_ICONS.edu);
   const rewardText = formatReward(task.reward);
 
-  const isParentHighlight = task.isAdultTask && !isDone;
+  const isParentHighlight = task.isAdultTask && task.executorName === 'Я' && !isDone;
+  const displayName = executorDisplay ?? task.executorName ?? '—';
   return (
     <div className={`${styles.taskCard} ${isDone ? styles.taskCardDone : ''} ${isParentHighlight ? styles.taskCardParent : ''}`}>
       <div className={styles.taskCardLeft}>
@@ -36,7 +38,18 @@ export default function TaskCard({ task, executorDisplay }) {
         <div className={styles.taskCardContent}>
           <span className={styles.taskCardTitle}>{task.title}</span>
           <div className={styles.taskCardMeta}>
-            <span className={styles.taskCardDue}>{executorDisplay ?? task.executorName ?? '—'}</span>
+            <span className={styles.taskCardDue}>
+              {executorAvatar && (
+                <span className={styles.executorAvatar}>
+                  {executorAvatar.avatarUrl ? (
+                    <img src={`${base}${executorAvatar.avatarUrl}`} alt="" />
+                  ) : (
+                    <span>{executorAvatar.name?.[0] ?? displayName[0]}</span>
+                  )}
+                </span>
+              )}
+              {displayName}
+            </span>
             {!task.isAdultTask && rewardText && (
               <span className={styles.xpTag}>
                 <span className={styles.xpTagText}>{rewardText}</span>

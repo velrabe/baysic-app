@@ -8,17 +8,18 @@ import { getChildById } from '../../../data/mockChildren';
 import { mockTasks } from '../../../data/mockTasks';
 import UnblockModal from '../../../ui/UnblockModal/UnblockModal';
 import BalanceModal from '../../../ui/BalanceModal/BalanceModal';
+import diamondIcon from '../../../assets/diamond.png';
 import styles from './ChildProfileDetail.module.css';
 
 const base = import.meta.env.BASE_URL || '/';
 const COIN_ICON = `${base}assets/coin.png`;
-const DIAMOND_ICON = `${base}assets/diamond.png`;
+const DIAMOND_ICON = diamondIcon;
 
 const ANALYTICS_CATEGORIES = [
-  { id: 'games', name: 'Игры', color: '#e53935', percent: 45 },
-  { id: 'edu', name: 'Обучение', color: '#43a047', percent: 25 },
-  { id: 'video', name: 'Видео', color: '#1e88e5', percent: 20 },
-  { id: 'browser', name: 'Браузер', color: '#fdd835', percent: 10 },
+  { id: 'games', name: 'Игры', color: '#F76965', percent: 45 },
+  { id: 'edu', name: 'Обучение', color: '#69C46D', percent: 25 },
+  { id: 'video', name: 'Видео', color: '#3F98E7', percent: 20 },
+  { id: 'browser', name: 'Браузер', color: '#ED75E5', percent: 10 },
 ];
 
 const APP_ICONS = {
@@ -141,6 +142,8 @@ export default function ChildProfileDetail({ standalone = false, tasksLimit: tas
             tasksTotal={sortedTasks.length}
             onBlockClick={() => navigate('/parent/dashboard-limit-exceeded')}
             onAddTimeClick={() => setTimeModal('addTime')}
+            onUnblockClick={() => setTimeModal('unblock')}
+            editProfileTo={`/parent/child-profile/${childId}/edit`}
           />
         )}
 
@@ -162,9 +165,8 @@ export default function ChildProfileDetail({ standalone = false, tasksLimit: tas
                 <p className={styles.childMood}>{child.mood}</p>
               </div>
               <Link to={`/parent/child-profile/${childId}/edit`} className={styles.editBtn} aria-label="Редактировать профиль">
-                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-                  <path d="M10.5 1.75L12.25 3.5L4.375 11.375L2.625 11.375L2.625 9.625L10.5 1.75Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                  <path d="M8.75 3.5L10.5 5.25" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 512 512" aria-hidden="true">
+                  <path fill="currentColor" d="m362.7 19.3l-48.4 48.4l130 130l48.4-48.4c25-25 25-65.5 0-90.5l-39.4-39.5c-25-25-65.5-25-90.5 0zm-71 71L58.6 323.5c-10.4 10.4-18 23.3-22.2 37.4L1 481.2c-2.5 8.5-.2 17.6 6 23.8s15.3 8.5 23.7 6.1L151 475.7c14.1-4.2 27-11.8 37.4-22.2l233.3-233.2z"/>
                 </svg>
               </Link>
             </header>
@@ -246,6 +248,7 @@ export default function ChildProfileDetail({ standalone = false, tasksLimit: tas
                     key={t.id || t.title}
                     task={t}
                     executorDisplay={!t.isAdultTask ? child.name : undefined}
+                    executorAvatar={!t.isAdultTask ? child : undefined}
                   />
                 ))}
               </div>
@@ -254,7 +257,7 @@ export default function ChildProfileDetail({ standalone = false, tasksLimit: tas
               )}
             </div>
             <Link to={allTasksLink} className={styles.taskCardAllLink}>
-              Все задания ({sortedTasks.length})
+              Все задания ({sortedTasks.length}) →
             </Link>
           </div>
         </section>
@@ -310,23 +313,28 @@ export default function ChildProfileDetail({ standalone = false, tasksLimit: tas
                 })}
               </AnalyticsTopAppsScroll>
             </div>
+            <Link to="/parent/content-filter" className={styles.contentConfigBtn}>
+              Настроить контент →
+            </Link>
           </div>
         </section>
 
         <section className={styles.block}>
-          <div className={styles.balanceGrid}>
-            <div className={styles.balanceColumn}>
-              <span className={styles.balanceLabel}>Монеты</span>
-              <div className={styles.balanceValueRow}>
-                <img src={COIN_ICON} alt="" className={styles.balanceIcon} />
-                <span className={styles.balanceValue}>{child.earnedPoints ?? 0}</span>
+          <div className={styles.balanceWrap}>
+            <div className={styles.balanceGrid}>
+              <div className={styles.balanceColumn}>
+                <span className={styles.balanceLabel}>Монеты</span>
+                <div className={styles.balanceValueRow}>
+                  <img src={COIN_ICON} alt="" className={styles.balanceIcon} />
+                  <span className={styles.balanceValue}>{child.earnedPoints ?? 0}</span>
+                </div>
               </div>
-            </div>
-            <div className={styles.balanceColumn}>
-              <span className={styles.balanceLabel}>Баллы</span>
-              <div className={styles.balanceValueRow}>
-                <img src={DIAMOND_ICON} alt="" className={styles.balanceIcon} />
-                <span className={styles.balanceValue}>{child.earnedDiamonds ?? 0}</span>
+              <div className={styles.balanceColumn}>
+                <span className={styles.balanceLabel}>Баллы</span>
+                <div className={styles.balanceValueRow}>
+                  <img src={DIAMOND_ICON} alt="" className={styles.balanceIcon} />
+                  <span className={styles.balanceValue}>{child.earnedDiamonds ?? 0}</span>
+                </div>
               </div>
             </div>
             <button
@@ -334,7 +342,7 @@ export default function ChildProfileDetail({ standalone = false, tasksLimit: tas
               className={styles.balanceManageBtn}
               onClick={() => setBalanceModal(true)}
             >
-              Управление балансом
+              Управление балансом →
             </button>
           </div>
         </section>
@@ -385,6 +393,7 @@ export default function ChildProfileDetail({ standalone = false, tasksLimit: tas
                     key={t.id || t.title}
                     task={t}
                     executorDisplay={!t.isAdultTask ? child.name : undefined}
+                    executorAvatar={!t.isAdultTask ? child : undefined}
                   />
                 ))}
               </div>
@@ -393,7 +402,7 @@ export default function ChildProfileDetail({ standalone = false, tasksLimit: tas
               )}
             </div>
             <Link to={allTasksLink} className={styles.taskCardAllLink}>
-              Все задания ({sortedTasks.length})
+              Все задания ({sortedTasks.length}) →
             </Link>
           </div>
         </section>
@@ -449,23 +458,28 @@ export default function ChildProfileDetail({ standalone = false, tasksLimit: tas
                 })}
               </AnalyticsTopAppsScroll>
             </div>
+            <Link to="/parent/content-filter" className={styles.contentConfigBtn}>
+              Настроить контент →
+            </Link>
           </div>
         </section>
 
         <section className={styles.block}>
-          <div className={styles.balanceGrid}>
-            <div className={styles.balanceColumn}>
-              <span className={styles.balanceLabel}>Монеты</span>
-              <div className={styles.balanceValueRow}>
-                <img src={COIN_ICON} alt="" className={styles.balanceIcon} />
-                <span className={styles.balanceValue}>{child.earnedPoints ?? 0}</span>
+          <div className={styles.balanceWrap}>
+            <div className={styles.balanceGrid}>
+              <div className={styles.balanceColumn}>
+                <span className={styles.balanceLabel}>Монеты</span>
+                <div className={styles.balanceValueRow}>
+                  <img src={COIN_ICON} alt="" className={styles.balanceIcon} />
+                  <span className={styles.balanceValue}>{child.earnedPoints ?? 0}</span>
+                </div>
               </div>
-            </div>
-            <div className={styles.balanceColumn}>
-              <span className={styles.balanceLabel}>Баллы</span>
-              <div className={styles.balanceValueRow}>
-                <img src={DIAMOND_ICON} alt="" className={styles.balanceIcon} />
-                <span className={styles.balanceValue}>{child.earnedDiamonds ?? 0}</span>
+              <div className={styles.balanceColumn}>
+                <span className={styles.balanceLabel}>Баллы</span>
+                <div className={styles.balanceValueRow}>
+                  <img src={DIAMOND_ICON} alt="" className={styles.balanceIcon} />
+                  <span className={styles.balanceValue}>{child.earnedDiamonds ?? 0}</span>
+                </div>
               </div>
             </div>
             <button
@@ -473,7 +487,7 @@ export default function ChildProfileDetail({ standalone = false, tasksLimit: tas
               className={styles.balanceManageBtn}
               onClick={() => setBalanceModal(true)}
             >
-              Управление балансом
+              Управление балансом →
             </button>
           </div>
         </section>

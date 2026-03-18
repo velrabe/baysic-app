@@ -112,8 +112,9 @@
 }
 
 .blockTitle {
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 600;
+  letter-spacing: -0.03em;
   margin: 0;
 }
 
@@ -171,7 +172,7 @@
 .analytics {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 8px;
 }
 
 .analyticsCategoriesCard {
@@ -187,6 +188,23 @@
   display: flex;
   flex-direction: column;
   gap: 4px;
+}
+
+.contentConfigBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 16px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-primary-strong);
+  background: rgba(146, 121, 232, 0.12);
+  border-radius: 12px;
+  text-decoration: none;
+}
+
+.contentConfigBtn:hover {
+  background: rgba(146, 121, 232, 0.2);
 }
 
 .analyticsTopAppsScrollWrap {
@@ -254,6 +272,7 @@
 .analyticsProgressSegment {
   height: 100%;
   min-width: 2px;
+  box-shadow: inset 0 0 8px rgba(255, 255, 255, 0.5);
 }
 
 .analyticsProgressSegment:first-child {
@@ -288,6 +307,7 @@
   height: 10px;
   border-radius: 2px;
   flex-shrink: 0;
+  box-shadow: inset 0 0 8px rgba(255, 255, 255, 0.5);
 }
 
 
@@ -299,7 +319,7 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  padding: 8px 12px;
+  padding: 8px;
   font-size: 13px;
   font-weight: 500;
   background: #fff;
@@ -308,17 +328,16 @@
 }
 
 .analyticsTopAppIcon {
-  width: 24px;
-  height: 24px;
-  border-radius: 6px;
+  width: 32px;
+  height: 32px;
+  border-radius: 4px;
   flex-shrink: 0;
-  object-fit: contain;
+  object-fit: cover;
 }
 
 .analyticsTopAppContent {
   display: flex;
   flex-direction: column;
-  gap: 2px;
 }
 
 .analyticsTopAppName {
@@ -458,26 +477,47 @@
   text-decoration: underline;
 }
 
+.balanceWrap {
+  padding: 4px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #6f63ff 0%, #9a86ff 100%);
+  box-shadow: inset 0 0 24px rgba(255, 255, 255, 0.3);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
 .balanceGrid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 12px;
+  gap: 4px;
   align-items: stretch;
 }
 
 .balanceColumn {
-  padding: 16px;
-  background: var(--color-surface-muted);
-  border-radius: 16px;
+  padding: 0;
+  border-radius: 12px;
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.balanceLabel {
+  font-size: 12px;
+  font-weight: 500;
+  padding: 8px 12px;
+  background: transparent;
+  color: #fff;
 }
 
 .balanceValueRow {
   display: flex;
   align-items: center;
   gap: 8px;
+  padding: 12px;
+  border-radius: 12px;
+  background: #fff;
 }
 
 .balanceIcon {
@@ -486,26 +526,31 @@
   flex-shrink: 0;
 }
 
-.balanceLabel {
-  font-size: 12px;
-  color: var(--color-text-secondary);
+.balanceValue {
+  font-size: 24px;
+  font-weight: 500;
+  color: var(--color-primary-strong);
 }
 
 .balanceManageBtn {
-  grid-column: 1 / -1;
-  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 16px;
   font-size: 14px;
   font-weight: 600;
   color: var(--color-primary-strong);
-  background: rgba(146, 121, 232, 0.12);
+  background: rgba(255, 255, 255, 0.85);
   border: none;
   border-radius: 12px;
   cursor: pointer;
   font-family: inherit;
+  text-decoration: none;
 }
 
 .balanceManageBtn:hover {
-  background: rgba(146, 121, 232, 0.2);
+  background: rgba(255, 255, 255, 0.95);
 }
 
 .balanceBlock {
@@ -515,12 +560,6 @@
   padding: 16px;
   background: var(--color-surface-muted);
   border-radius: 16px;
-}
-
-.balanceValue {
-  font-size: 24px;
-  font-weight: 700;
-  color: var(--color-primary-strong);
 }
 
 .spendBtn {
@@ -553,8 +592,9 @@
 }
 
 .tasksBlockTitle {
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 600;
+  letter-spacing: -0.03em;
   margin: 0;
 }
 

@@ -1,10 +1,11 @@
 import { createPortal } from 'react-dom';
 import Button from '../Button/Button';
+import diamondIcon from '../../assets/diamond.png';
 import styles from './BalanceModal.module.css';
 
 const base = import.meta.env.BASE_URL || '/';
 const COIN_ICON = `${base}assets/coin.png`;
-const DIAMOND_ICON = `${base}assets/diamond.png`;
+const DIAMOND_ICON = diamondIcon;
 
 export default function BalanceModal({ child, onClose }) {
   const portalTarget = typeof document !== 'undefined' ? document.getElementById('phone-frame') : null;

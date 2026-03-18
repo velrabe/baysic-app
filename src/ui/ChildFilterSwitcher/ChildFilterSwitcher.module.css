@@ -21,11 +21,10 @@
   border: none;
   cursor: pointer;
   font-family: inherit;
+  white-space: nowrap;
 }
 
-.item:hover {
-  background: #e8eaf5;
-}
+/* No hover - mobile app */
 
 .active {
   color: #fff;
